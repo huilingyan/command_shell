@@ -1,8 +1,8 @@
-a is 4[C3
+a is 3
 b is 8
-a * i + b = %d\n[C[C[C[C8   
-a *i i + b = 12
-a * i + b = 16
+a[C * i + b = 8
+a * i + b = 12
+a +[D* i + b = 16
 a * i + b = 20
 a is 5
 b is 6
