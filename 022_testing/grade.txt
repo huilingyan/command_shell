@@ -1,24 +1,21 @@
-Grading at 09/09/2019:13:18:19.100708
-For commit ID 82234a3c0e63e430c1689f558b1fff7531c3b22a
-Grading at Mon Sep  9 09:18:18 EDT 2019
+Grading at 09/09/2019:13:20:19.347785
+For commit ID 874b4fb655c61212f06d7402e54bbca8105e75ae
+Grading at Mon Sep  9 09:20:19 EDT 2019
 #################################################
 test input.1:
 Your file matched the expected output
 input.1 passed
 #################################################
 test input.2:
-Line_1_did_not_match
-Your file did not match the expected ouput
-input.2 failed, your output did not match with the answer
+Your file matched the expected output
+input.2 passed
 #################################################
 test input.3:
-Line_1_did_not_match
-Your file did not match the expected ouput
-input.3 failed, your output did not match with the answer
+Your file matched the expected output
+input.3 passed
 #################################################
 test input.4:
-Line_1_did_not_match
-Your file did not match the expected ouput
-input.4 failed, your output did not match with the answer
+Your file matched the expected output
+input.4 passed
 
-Overall Grade: D
+Overall Grade: A
