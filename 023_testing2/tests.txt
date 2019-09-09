@@ -1,0 +1,38 @@
+aaaaa bbbbb
+aaaab aaabb
+aaabb aaabc
+abcde fghij
+abcd  abcde
+abcdef abcde
+aaaaa bbbbb ccccc
+aaaaa aaaaa
+AAAaB AAAAB
+12345 54321
+11211 11112
+abc bb
+aaabb
+aaab
+aa bb aabbc
+aabbc eeffg
+aaabb  eeeef
+ aaabb
+ aabb
+你好abc 你好ert
+你你你你你 好好好好好
+aaaaaa bbbbbb
+aaaaaa aaaaab
+aaaabb aaaaab
+aaaaab baaaaa
+aaaab aaaa
+a
+a a
+a b
+a a a
+aaaaa aaaaab
+aaaaa aaaa
+aaaaa baaaaa
+aaaaaa aaaaaa
+aaabb abcddd
+abcde aabcd
+aaaab bcbbb
+abbcc abbcd
