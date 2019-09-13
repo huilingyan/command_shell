@@ -1,4 +1,5 @@
-.#Makefile#
+#Makefile#
 Makefile~
 test
 test.o
+*#
