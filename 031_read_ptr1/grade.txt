@@ -1,12 +1,11 @@
-Grading at 09/13/2019:13:57:18.656790
-For commit ID 51c8c5530f3bdd98804ae7b4bd296a7c58335343
-Grading at Fri Sep 13 09:57:18 EDT 2019
+Grading at 09/13/2019:14:00:59.171544
+For commit ID 52239e9913212390a1bb71986d97259cf8c7b52d
+Grading at Fri Sep 13 10:00:59 EDT 2019
 Attempting to compile test.c
 gcc -c -pedantic -std=gnu99 -Wall -Werror test.c
 gcc -o test -pedantic -std=gnu99 -Wall -Werror test.o
 compiled
-Line_4_did_not_match
-Your file did not match the expected ouput
-Your output did not match what we expected.
+Your file matched the expected output
+Your output matched what we expected
 
-Overall Grade: FAILED
+Overall Grade: PASSED
