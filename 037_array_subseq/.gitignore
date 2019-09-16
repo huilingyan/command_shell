@@ -2,5 +2,4 @@ Makefile
 Makefile~
 maxSeq
 maxSeq.o
-test-subseq.c
 test-subseq.o
