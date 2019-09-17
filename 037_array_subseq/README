@@ -1,4 +1,4 @@
-
+xc
  1. Create a file called maxSeq.c and write the function:
       size_t  maxSeq(int * array, size_t n);
     which returns the length of the maximum increasing contiguous subsequence
