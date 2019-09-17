@@ -11,16 +11,16 @@ size_t max(size_t x, size_t y) {
 
 size_t maxSeq(int * array, size_t n) {
   size_t result = 0;
-  size_t i = 1, j = 0;
+  size_t i = 0, j = 0;
   if (n == 0) {
     return 0;
   }
-  for (i = 1; i < n; i++) {
-    if (array[i] <= array[i - 1]) {
+  for (i = 0; i < n - 1; i++) {
+    if (array[i + 1] <= array[i]) {
       if ((i - j) > result) {
         result = i - j + 1;
       }
-      j = i;
+      j = i + 1;
     }
   }
   size_t result_2 = n - j;
