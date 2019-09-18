@@ -55,4 +55,6 @@ int main() {
   test_printSeq1Range(7, 2);
   test_printSeq1Range(-6, -2);
   test_printSeq1Range(-6, -7);
+
+  return 0;
 }
