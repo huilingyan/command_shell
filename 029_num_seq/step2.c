@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int seq2(int x) {
+int seq2(int x) {  //calculate the sequence
   if ((x - 2) % 4 == 0) {
     return 2 * x;
   }
@@ -20,8 +20,9 @@ int seq2(int x) {
   }
 }
 
-int sumSeq2(int low, int high) {
-  if (low >= high) {
+int sumSeq2(int low, int high) {  //calculate the sum of number within the given sequence
+  if (low >=
+      high) {  // if low is higher than high, it's 0 since there're no numbers in sequence
     return 0;
   }
   else {

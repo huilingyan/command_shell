@@ -10,19 +10,24 @@
 #include <stdlib.h>
 #include <string.h>
 
-int seq3(int x, int y) {
+int seq3(int x, int y) {  //calculate the 2D sequence
   return x * (y - 3) + 2 * y;
 }
 
-int countEvenInSeq3Range(int xLow, int xHi, int yLow, int yHi) {
-  if ((xLow >= xHi) || (yLow >= yHi)) {
+int countEvenInSeq3Range(int xLow,
+                         int xHi,
+                         int yLow,
+                         int yHi) {  //count the number of even in given range
+  if ((xLow >= xHi) ||
+      (yLow >=
+       yHi)) {  //if either xlow is larger than xhigh or ylow is larger than yhigh, return 0 since there's no number
     return 0;
   }
   else {
     int sumofEven = 0;
     for (int i = xLow; i < xHi; i++) {
       for (int j = yLow; j < yHi; j++) {
-        if (seq3(i, j) % 2 == 0) {
+        if (seq3(i, j) % 2 == 0) {  //when the request is met, count up for 1
           sumofEven++;
         }
       }

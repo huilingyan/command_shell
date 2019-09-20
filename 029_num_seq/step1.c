@@ -11,14 +11,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-int seq1(int x) {
+int seq1(int x) {  //calculate the sequence
   return 4 * x - 3;
 }
 
-void printSeq1Range(int low, int high) {
+void printSeq1Range(int low, int high) {  //print out the sequence within the given range
   if (low >= high) {
     printf("\n");
-  }
+  }  //if low is larger than high, print blank new line
   else {
     int i = low;
     while (i < high - 1) {
@@ -26,7 +26,7 @@ void printSeq1Range(int low, int high) {
       i++;
     }
     printf("%d\n", seq1(high - 1));
-  }
+  }  //print out the sequence
 }
 
 void test_seq1(int x) {
