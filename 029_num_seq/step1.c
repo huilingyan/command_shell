@@ -39,7 +39,7 @@ void test_printSeq1Range(int low, int high) {
   printSeq1Range(low, high);
 }
 
-int main() {
+int main(void) {
   test_seq1(0);
   test_seq1(1);
   test_seq1(-1);

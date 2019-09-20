@@ -46,7 +46,7 @@ void test_countEvenInSeq3Range(int xLow, int xHi, int yLow, int yHi) {
   printf("countEvenInSeq3Range(%d, %d, %d, %d) = %d\n", xLow, xHi, yLow, yHi, z);
 }
 
-int main() {
+int main(void) {
   test_seq3(0, 0);
   test_seq3(0, 1);
   test_seq3(0, -1);

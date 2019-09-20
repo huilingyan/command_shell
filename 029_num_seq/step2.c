@@ -44,7 +44,7 @@ void test_sumSeq2(int low, int high) {
   printf("sumSeq2(%d, %d) = %d\n", low, high, z);
 }
 
-int main() {
+int main(void) {
   test_seq2(0);
   test_seq2(1);
   test_seq2(2);
