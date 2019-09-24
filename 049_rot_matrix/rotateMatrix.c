@@ -9,7 +9,7 @@ void error_check(char array[10][10], FILE * f) {
   while ((ch = fgetc(f)) != EOF) {
     while (fgets(array[i], 12, f) != NULL) {
       const char * a = strchr(array[i], '\0');
-      if ((a - array[i]) != 11) {
+      if ((a - array[i]) != 10) {
         fprintf(stderr, "Incorrect number of columns!\n");
       }
     }
