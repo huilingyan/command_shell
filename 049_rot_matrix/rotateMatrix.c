@@ -3,20 +3,34 @@
 #include <stdlib.h>
 #include <string.h>
 
-void error_check(char array[10][12], FILE * f) {
+void error_check(char array[10][10], FILE * f) {
   int i = 0;
-  //int ch;
-  // while ((ch = fgetc(f)) != EOF) {
-  while ((fgets(array[i], 12, f) != NULL) && (i < 10)) {
-    const char * a = strchr(array[i], '\0');
-    if ((a - array[i]) != 11) {
-      fprintf(stderr, "Incorrect number of columns!\n");
+  int ch;
+  while ((ch = fgetc(f)) != EOF) {
+    switch (ch) {
+      case '\n': {
+        const char * a = strchr(array[i], '\n');
+        if ((a - array[i] != 10)) {
+          fprintf(stderr, "Incorrect number of columns!\n");
+          exit(EXIT_FAILURE);
+        }
+        i++;
+      }
+      case EOF: {
+        if (i != 10) {
+          fprintf(stderr, "Incorrect number of lines!\n");
+          exit(EXIT_FAILURE);
+        }
+      }
+      default: {
+        for (int j = 0; j < 10; j++) {
+          array[i][j] = (char)ch;
+        }
+      }
     }
-    i++;
   }
-  // }
 }
-void rotate(char matrix[10][12]) {
+void rotate(char matrix[10][10]) {
   for (int i = 0; i < 10; i++) {
     for (int j = 0; j < 10; j++) {
       fprintf(stdout, "%c", matrix[j][9 - i]);
@@ -37,7 +51,7 @@ int main(int argc, char ** argv) {
     return EXIT_FAILURE;
   }  //if filename does not exist
 
-  char matrix[10][12];
+  char matrix[10][10];
 
   error_check(matrix, f);
   rotate(matrix);
