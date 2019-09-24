@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void error_check(char array[10][10], FILE * f) {
+void error_check(char array[10][11], FILE * f) {
   int i = 0;
   int ch;
   while ((ch = fgetc(f)) != EOF) {
@@ -30,7 +30,7 @@ void error_check(char array[10][10], FILE * f) {
     }
   }
 }
-void rotate(char matrix[10][10]) {
+void rotate(char matrix[10][11]) {
   for (int i = 0; i < 10; i++) {
     for (int j = 0; j < 10; j++) {
       fprintf(stdout, "%c", matrix[j][9 - i]);
@@ -51,7 +51,7 @@ int main(int argc, char ** argv) {
     return EXIT_FAILURE;
   }  //if filename does not exist
 
-  char matrix[10][10];
+  char matrix[10][11];
 
   error_check(matrix, f);
   rotate(matrix);
