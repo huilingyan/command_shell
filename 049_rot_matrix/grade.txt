@@ -1,0 +1,22 @@
+Grading at 09/24/2019:13:46:41.526459
+For commit ID 91fe1475b469cf631bd416e281d5ca93000e4427
+Grading at Tue Sep 24 09:46:37 EDT 2019
+Attempting to compile rotateMatrix.c
+testcase1 passed
+#################################################
+testcase2:
+testcase2 passed
+#################################################
+testcase3:
+valgrind reported memory errors
+#################################################
+testcase4:
+valgrind reported memory errors
+#################################################
+testcase5:
+valgrind reported memory errors
+#################################################
+testcase6:
+valgrind reported memory errors
+
+Overall Grade: F
