@@ -7,19 +7,14 @@ void error_check(char array[10][12], FILE * f) {
   int i = 0;
   //int ch;
   // while ((ch = fgetc(f)) != EOF) {
-  while (fgets(array[i], 12, f) != NULL) {
+  while ((fgets(array[i], 12, f) != NULL) && (i < 10)) {
     const char * a = strchr(array[i], '\0');
     if ((a - array[i]) != 11) {
       fprintf(stderr, "Incorrect number of columns!\n");
     }
-    if (i < 10) {
-      i++;
-    }
+    i++;
   }
   // }
-  if (i != 10) {
-    fprintf(stderr, "Incorrect number of lines!\n");
-  }
 }
 void rotate(char matrix[10][12]) {
   for (int i = 0; i < 10; i++) {
