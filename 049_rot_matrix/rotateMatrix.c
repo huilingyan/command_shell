@@ -107,21 +107,15 @@ void error_check(char array[10][11], FILE * f) {
         break;
       }
 
-        //case EOF: {
-        //if (i != 10) {
-        //fprintf(stderr, "Incorrect number of lines!\n");
-        //exit(EXIT_FAILURE);
-        //}
-        //}
       default:
         array[i][j] = (char)ch;
         j++;
         break;
     }
-    if (i != 10) {
-      fprintf(stderr, "Incorrect number of lines!\n");
-      exit(EXIT_FAILURE);
-    }
+  }
+  if (i != 10) {
+    fprintf(stderr, "Incorrect number of lines!\n");
+    exit(EXIT_FAILURE);
   }
 }
 void rotate(char matrix[10][11]) {
