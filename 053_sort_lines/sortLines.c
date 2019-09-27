@@ -27,14 +27,13 @@ void sort_lines(FILE * f) {
     line = NULL;
     i++;
   }
-  free(line);
+  //free(line);
   sortData(sort_array, i);
-  for (int j = 0; j < i; j++) {
+  for (size_t j = 0; j < i; j++) {
     printf("%s\n", sort_array[j]);
     free(sort_array[j]);
   }
-  free(line);
-
+  free(sort_array);
   if (fclose(f) != 0) {
     fprintf(stderr, "failed to close the input file!\n");
     exit(EXIT_FAILURE);
