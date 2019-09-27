@@ -27,6 +27,7 @@ void sort_lines(FILE * f) {
     line = NULL;
     i++;
   }
+  free(line);
   sortData(sort_array, i);
   for (int j = 0; j < i; j++) {
     printf("%s\n", sort_array[j]);
