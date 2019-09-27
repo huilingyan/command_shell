@@ -30,6 +30,7 @@ void sort_lines(FILE * f) {
   sortData(sort_array, i);
   for (int j = 0; j < i; j++) {
     printf("%s\n", sort_array[j]);
+    free(sort_array[j]);
   }
   free(line);
 
