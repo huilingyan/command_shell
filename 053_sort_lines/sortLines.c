@@ -19,7 +19,7 @@ void sort_lines(FILE * f) {
   size_t sz = 0;
   ssize_t len = 0;
   char * line = NULL;
-  int i = 0;
+  size_t i = 0;
   char ** sort_array = NULL;
   while ((len = getline(&line, &sz, f)) >= 0) {
     sort_array = realloc(sort_array, (i + 1) * sizeof(*sort_array));
@@ -27,7 +27,7 @@ void sort_lines(FILE * f) {
     line = NULL;
     i++;
   }
-  //free(line);
+  free(line);
   sortData(sort_array, i);
   for (size_t j = 0; j < i; j++) {
     printf("%s\n", sort_array[j]);
