@@ -101,7 +101,28 @@ void printRecounts(state_t * stateData, uint64_t * voteCounts, size_t nStates) {
     }
   }
 }
-
+size_t findMaxIndex(double * array, size_t n) {
+  if (n <= 0) {
+    fprintf(stderr, "n should be non-zero int!\n");
+    exit(EXIT_FAILURE);
+  }
+  size_t maxidx = 0;
+  for (size_t i = 1; i < n; i++) {
+    if (array[i] > array[maxidx]) {
+      maxidx = i;
+    }
+  }
+  return maxidx;
+}
 void printLargestWin(state_t * stateData, uint64_t * voteCounts, size_t nStates) {
   //STEP 4: write me
+  double pct[nStates];
+  size_t MaxIdx;
+  for (size_t i = 0; i < nStates; i++) {
+    pct[i] = voteCounts[i] / (double)stateData[i].population * 100;
+  }
+  MaxIdx = findMaxIndex(pct, nStates);
+  printf("Candidate A won %s with %.2f%% of the vote\n",
+         stateData[MaxIdx].name,
+         pct[MaxIdx]);
 }
