@@ -5,6 +5,9 @@
 #include "string.h"
 //include any other headers you need here...
 
+//The emacs automatically makes some WEIRD changes on format (if statements and eliminate the
+//newlines i made for readability) when i save the file.
+//None of my business!!!!!
 state_t parseLine(const char * line) {
   //STEP 1: write me
   state_t state;
@@ -42,6 +45,10 @@ state_t parseLine(const char * line) {
     fprintf(stderr, "Invalid character appeared!");
     exit(EXIT_FAILURE);
   }
+  if (sep == c) {
+    fprintf(stderr, "No population!\n");
+    exit(EXIT_FAILURE);
+  }
   c = ++sep;  //Both c and sep point to the next character after ':'
   //get the electoral votes
   state.electoralVotes = 0;
@@ -52,7 +59,7 @@ state_t parseLine(const char * line) {
     sep++;
   }
   if (*sep != '\0') {  //if previous while loop exit without reading a '\0'
-    fprintf(stderr, "Invalid character appeared!");
+    fprintf(stderr, "Invalid inputs in electoral votes!\n");
     exit(EXIT_FAILURE);
   }
 
@@ -94,7 +101,7 @@ void printRecounts(state_t * stateData, uint64_t * voteCounts, size_t nStates) {
   double pct;
   for (size_t i = 0; i < nStates; i++) {
     pct = voteCounts[i] / (double)stateData[i].population * 100;
-    if (pct >= 49.5 && pct <= 50.5) {
+    if (pct >= 49.500000 && pct <= 50.500000) {
       printf("%s requires a recount (Candidate A has %.2f%% of the vote)\n",
              stateData[i].name,
              pct);
@@ -118,6 +125,15 @@ void printLargestWin(state_t * stateData, uint64_t * voteCounts, size_t nStates)
   //STEP 4: write me
   double pct[nStates];
   size_t MaxIdx;
+  if (!stateData) {  //if no info for stateData
+    fprintf(stderr, "Cannot get the information of the state!\n");
+    exit(EXIT_FAILURE);
+  }
+  if (!voteCounts) {  //if no info for vote counts
+    fprintf(stderr, "Cannot get the voteCounts!\n");
+    exit(EXIT_FAILURE);
+  }
+
   for (size_t i = 0; i < nStates; i++) {
     pct[i] = voteCounts[i] / (double)stateData[i].population * 100;
   }
