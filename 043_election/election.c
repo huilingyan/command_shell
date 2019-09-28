@@ -63,7 +63,21 @@ unsigned int countElectoralVotes(state_t * stateData,
                                  uint64_t * voteCounts,
                                  size_t nStates) {
   //STEP 2: write me
-  return 0;
+  unsigned count = 0;
+  if (!stateData) {  //if no info for stateData
+    fprintf(stderr, "Cannot get the information of the state!\n");
+    exit(EXIT_FAILURE);
+  }
+  if (!voteCounts) {  //if no info for vote counts
+    fprintf(stderr, "Cannot get the voteCounts!\n");
+    exit(EXIT_FAILURE);
+  }
+  for (size_t i = 0; i < nStates; i++) {
+    if (voteCounts[i] > stateData[i].population / 2) {
+      count = count + stateData[i].electoralVotes;
+    }
+  }
+  return count;
 }
 
 void printRecounts(state_t * stateData, uint64_t * voteCounts, size_t nStates) {
