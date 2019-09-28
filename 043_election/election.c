@@ -35,7 +35,7 @@ state_t parseLine(const char * line) {
   while ('0' <= *sep && *sep <= '9') {  //if reads a number
     state.population =
         state.population * 10 + (uint64_t)(*sep - '0');  //convert char to unsigned
-    // 64bit int, and add from the least significant bit
+    // 64bit int, and add from the most significant bit
     sep++;
   }
   if (*sep != ':') {  //if previous while loop exit without reading a ':'
@@ -48,7 +48,7 @@ state_t parseLine(const char * line) {
   while ('0' <= *sep && *sep <= '9') {  //if reads a number
     state.electoralVotes = state.electoralVotes * 10 +
                            (unsigned)(*sep - '0');  //conver char to unsigned int,
-    //add from the least significant bit
+    //add from the most significant bit
     sep++;
   }
   if (*sep != '\0') {  //if previous while loop exit without reading a '\0'
@@ -82,6 +82,24 @@ unsigned int countElectoralVotes(state_t * stateData,
 
 void printRecounts(state_t * stateData, uint64_t * voteCounts, size_t nStates) {
   //STEP 3: write me
+  if (!stateData) {  //if no info for stateData
+    fprintf(stderr, "Cannot get the information of the state!\n");
+    exit(EXIT_FAILURE);
+  }
+  if (!voteCounts) {  //if no info for vote counts
+    fprintf(stderr, "Cannot get the voteCounts!\n");
+    exit(EXIT_FAILURE);
+  }
+
+  double pct;
+  for (size_t i = 0; i < nStates; i++) {
+    pct = voteCounts[i] / (double)stateData[i].population * 100;
+    if (pct >= 49.5 && pct <= 50.5) {
+      printf("%s requires a recount (Candidate A has %.2f%% of the vote)\n",
+             stateData[i].name,
+             pct);
+    }
+  }
 }
 
 void printLargestWin(state_t * stateData, uint64_t * voteCounts, size_t nStates) {
