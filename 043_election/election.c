@@ -8,59 +8,63 @@
 //The emacs automatically makes some WEIRD changes on format (if statements and eliminate the
 //newlines i made for readability) when i save the file.
 //None of my business!!!!!
+void report_error(const char * s) {
+  fprintf(stderr, "%s", s);
+  exit(EXIT_FAILURE);
+}
 state_t parseLine(const char * line) {
   //STEP 1: write me
   state_t state;
   const char * sep = line;
   const char * c = line;
   //If the string is empty, error
-  if (line == NULL) {
-    fprintf(stderr, "Empty line!");
-    exit(EXIT_FAILURE);
+  if (*line == '\0') {
+    report_error("Empty line!\n");
   }
+
   //get the name of states
   sep = strchr(c, ':');  //find the location of ':', where it first appears
   if (sep == NULL) {
-    fprintf(stderr, "No ':' found; improper format!");
-    exit(EXIT_FAILURE);
+    report_error("No ':' found; improper format!\n");
   }
   if ((size_t)(sep - c) >
       MAX_STATE_NAME_LENGTH - 1) {  //If the size of state name exceeds the limit, error
-    fprintf(stderr, "Too long state name!\n");
-    exit(EXIT_FAILURE);
+    report_error("Too long state name!\n");
   }
   strncpy(state.name, c, (size_t)(sep - c));  //copy the state name into struct
   state.name[(size_t)(sep - c)] = '\0';       //add a null-terminator
-  c = ++sep;  //Both c and sep point to the next character after first ':'
+  sep++;
+  c = sep;  //Both c and sep point to the next character after first ':'
 
   //get the population
   state.population = 0;
-  while ('0' <= *sep && *sep <= '9') {  //if reads a number
+  while (*sep >= '0' && *sep <= '9') {  //if reads a number
     state.population =
         state.population * 10 + (uint64_t)(*sep - '0');  //convert char to unsigned
     // 64bit int, and add from the most significant bit
     sep++;
   }
   if (*sep != ':') {  //if previous while loop exit without reading a ':'
-    fprintf(stderr, "Invalid character appeared!");
-    exit(EXIT_FAILURE);
+    report_error("Invalid character appeared!\n");
   }
   if (sep == c) {
-    fprintf(stderr, "No population!\n");
-    exit(EXIT_FAILURE);
+    report_error("No population!\n");
   }
-  c = ++sep;  //Both c and sep point to the next character after ':'
+  sep++;
+  c = sep;  //Both c and sep point to the next character after ':'
   //get the electoral votes
   state.electoralVotes = 0;
-  while ('0' <= *sep && *sep <= '9') {  //if reads a number
+  while (*sep >= '0' && *sep <= '9') {  //if reads a number
     state.electoralVotes = state.electoralVotes * 10 +
                            (unsigned)(*sep - '0');  //conver char to unsigned int,
     //add from the most significant bit
     sep++;
   }
   if (*sep != '\0') {  //if previous while loop exit without reading a '\0'
-    fprintf(stderr, "Invalid inputs in electoral votes!\n");
-    exit(EXIT_FAILURE);
+    report_error("Invalid inputs in electoral votes!\n");
+  }
+  if (sep == c) {
+    report_error("No electoral votes!\n");
   }
 
   return state;
@@ -72,12 +76,10 @@ unsigned int countElectoralVotes(state_t * stateData,
   //STEP 2: write me
   unsigned count = 0;
   if (!stateData) {  //if no info for stateData
-    fprintf(stderr, "Cannot get the information of the state!\n");
-    exit(EXIT_FAILURE);
+    report_error("Cannot get the information of the state!\n");
   }
   if (!voteCounts) {  //if no info for vote counts
-    fprintf(stderr, "Cannot get the voteCounts!\n");
-    exit(EXIT_FAILURE);
+    report_error("Cannot get the voteCounts!\n");
   }
   for (size_t i = 0; i < nStates; i++) {
     if (voteCounts[i] > stateData[i].population / 2) {
@@ -90,12 +92,10 @@ unsigned int countElectoralVotes(state_t * stateData,
 void printRecounts(state_t * stateData, uint64_t * voteCounts, size_t nStates) {
   //STEP 3: write me
   if (!stateData) {  //if no info for stateData
-    fprintf(stderr, "Cannot get the information of the state!\n");
-    exit(EXIT_FAILURE);
+    report_error("Cannot get the information of the state!\n");
   }
   if (!voteCounts) {  //if no info for vote counts
-    fprintf(stderr, "Cannot get the voteCounts!\n");
-    exit(EXIT_FAILURE);
+    report_error("Cannot get the voteCounts!\n");
   }
 
   double pct;
@@ -110,8 +110,7 @@ void printRecounts(state_t * stateData, uint64_t * voteCounts, size_t nStates) {
 }
 size_t findMaxIndex(double * array, size_t n) {
   if (n <= 0) {
-    fprintf(stderr, "n should be non-zero int!\n");
-    exit(EXIT_FAILURE);
+    report_error("n should be non-zero int!\n");
   }
   size_t maxidx = 0;
   for (size_t i = 1; i < n; i++) {
@@ -126,12 +125,10 @@ void printLargestWin(state_t * stateData, uint64_t * voteCounts, size_t nStates)
   double pct[nStates];
   size_t MaxIdx;
   if (!stateData) {  //if no info for stateData
-    fprintf(stderr, "Cannot get the information of the state!\n");
-    exit(EXIT_FAILURE);
+    report_error("Cannot get the information of the state!\n");
   }
   if (!voteCounts) {  //if no info for vote counts
-    fprintf(stderr, "Cannot get the voteCounts!\n");
-    exit(EXIT_FAILURE);
+    report_error("Cannot get the voteCounts!\n");
   }
 
   for (size_t i = 0; i < nStates; i++) {
