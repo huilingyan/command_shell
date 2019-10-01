@@ -73,7 +73,7 @@ char * lookupValue(kvarray_t * pairs, const char * key) {
   //WRITE ME
   for (size_t i = 0; i < pairs->n; i++) {
     if (!strcmp(pairs->kv[i]->key, key)) {
-      return pairs->kv[i]->key;
+      return pairs->kv[i]->value;
     }
   }
   return NULL;
