@@ -53,11 +53,24 @@ void first_three_lines(Stat info,
          info.st_blocks,
          info.st_blksize,
          mode);
-  printf("Device: %lxh/%lud\tInode: %-10lu  Links: %lu\n",
-         info.st_dev,
-         info.st_dev,
-         info.st_ino,
-         info.st_nlink);
+
+  if ((S_ISCHR(info.st_mode)) ||
+      (S_ISBLK(info.st_mode))) {  //if the file is a device, print the device type
+    printf("Device: %lxh/%lud\tInode: %-10lu  Links: %-5lu Device type: %d,%d\n",
+           info.st_dev,
+           info.st_dev,
+           info.st_ino,
+           info.st_nlink,
+           major(info.st_rdev),
+           minor(info.st_rdev));
+  }
+  else {  //otherwise just print out by default method
+    printf("Device: %lxh/%lud\tInode: %-10lu  Links: %lu\n",
+           info.st_dev,
+           info.st_dev,
+           info.st_ino,
+           info.st_nlink);
+  }
   free(mode);  //free the memory allocated by 'strdup'
 }
 void Access(Stat info) {
@@ -197,7 +210,7 @@ void times(Stat info) {  //print out the last four lines, i.e. times
 int main(int argc, char ** argv) {  //implement the function of 'stat'
   Stat info;
 
-  if (argc <= 2) {
+  if (argc != 2) {
     report_error("Usage: <pathname>\n");
   }
 
