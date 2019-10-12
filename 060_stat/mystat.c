@@ -22,19 +22,19 @@ void first_three_lines(Stat info,
   char * mode;
   switch (info.st_mode & S_IFMT) {  //choose file type
     case S_IFBLK:
-      mode = strdup("block device");
+      mode = strdup("block special file");
       break;
     case S_IFCHR:
-      mode = strdup("character device");
+      mode = strdup("character special file");
       break;
     case S_IFDIR:
       mode = strdup("directory");
       break;
     case S_IFIFO:
-      mode = strdup("FIFO/pipe");
+      mode = strdup("fifo");
       break;
     case S_IFLNK:
-      mode = strdup("symlink");
+      mode = strdup("symbolic link");
       break;
     case S_IFREG:
       mode = strdup("regular file");
@@ -43,11 +43,27 @@ void first_three_lines(Stat info,
       mode = strdup("socket");
       break;
     default:
-      mode = strdup("unknown?");
+      mode = strdup("Unknown");
       break;
   }
+  //get the target of the linktarget
+  char linktarget[256];
+  ssize_t len = readlink(pathname, linktarget, 256);
 
-  printf("  File: %s\n", pathname);
+  if (len <= 255) {  //if the size is smaller than 255, add the null-terminator at the end
+    linktarget[len] = '\0';
+  }
+  else {  //if the size is 255, we have to change the last element to '\0'
+    linktarget[255] = '\0';
+  }
+
+  //print out info
+  if (S_ISLNK(info.st_mode)) {  //if the file is a symbolic link, print out the target
+    printf("  File: %s -> %s\n", pathname, linktarget);
+  }
+  else {  //otherwise juse print out the filename
+    printf("  File: %s\n", pathname);
+  }
   printf("  Size: %-10lu\tBlocks: %-10lu IO Block: %-6lu %s\n",
          info.st_size,
          info.st_blocks,
@@ -202,6 +218,7 @@ void times(Stat info) {  //print out the last four lines, i.e. times
   printf("Change: %s\n", ctime);
   printf(" Birth: -\n");
 
+  //free the memory allocated by time2str
   free(atime);
   free(mtime);
   free(ctime);
@@ -210,12 +227,12 @@ void times(Stat info) {  //print out the last four lines, i.e. times
 int main(int argc, char ** argv) {  //implement the function of 'stat'
   Stat info;
 
-  if (argc != 2) {
+  if (argc <= 1) {
     report_error("Usage: <pathname>\n");
   }
 
   for (int i = 1; i < argc; i++) {
-    if (lstat(argv[i], &info) == -1) {
+    if (lstat(argv[i], &info) != 0) {
       report_error("Error occurs when calling 'lstat'!\n");
     }
 
