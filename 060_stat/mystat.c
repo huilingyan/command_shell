@@ -11,6 +11,7 @@
 #include <unistd.h>
 
 typedef struct stat Stat;
+
 void report_error(const char * s) {  //error report
   fprintf(stderr, "%s", s);
   exit(EXIT_FAILURE);
@@ -178,7 +179,7 @@ char * time2str(const time_t * when, long ns) {
   return ans;
 }
 
-void times(Stat info) {
+void times(Stat info) {  //print out the last four lines, i.e. times
   char * atime = time2str(&info.st_atime, info.st_atim.tv_nsec);
   char * mtime = time2str(&info.st_mtime, info.st_mtim.tv_nsec);
   char * ctime = time2str(&info.st_ctime, info.st_ctim.tv_nsec);
@@ -196,17 +197,20 @@ void times(Stat info) {
 int main(int argc, char ** argv) {  //implement the function of 'stat'
   Stat info;
 
-  if (argc != 2) {
+  if (argc <= 2) {
     report_error("Usage: <pathname>\n");
   }
 
-  if (lstat(argv[1], &info) == -1) {
-    report_error("Error occurs when using system call!\n");
+  for (int i = 1; i < argc; i++) {
+    if (lstat(argv[i], &info) == -1) {
+      report_error("Error occurs when calling 'lstat'!\n");
+    }
+
+    first_three_lines(info, argv[i]);
+    Access(info);
+    user_info(info);
+    times(info);
   }
-  first_three_lines(info, argv[1]);
-  Access(info);
-  user_info(info);
-  times(info);
 
   return EXIT_SUCCESS;
 }
