@@ -150,7 +150,20 @@ void Access(Stat info) {
 
   pmsn[10] = '\0';  //add the null-terminator
 
-  printf("Access: (%04o/%s)\n", info.st_mode & ~S_IFMT, pmsn);
+  printf("Access: (%04o/%s)  ", info.st_mode & ~S_IFMT, pmsn);
+}
+
+void user_info(Stat info) {
+  struct passwd * pwd;
+  struct group * gwd;
+  pwd = getpwuid(info.st_uid);
+  gwd = getgrgid(info.st_gid);
+
+  printf("Uid: (%5d/%8s)   Gid: (%5d/%8s)\n",
+         info.st_uid,
+         pwd->pw_name,
+         info.st_gid,
+         gwd->gr_name);
 }
 
 int main(int argc, char ** argv) {  //implement the function of 'stat'
@@ -165,6 +178,7 @@ int main(int argc, char ** argv) {  //implement the function of 'stat'
   }
   first_three_lines(info, argv[1]);
   Access(info);
+  user_info(info);
 
   return EXIT_SUCCESS;
 }
