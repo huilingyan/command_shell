@@ -1,0 +1,6 @@
+CFLAGS=-pedantic -std=gnu++03 -Wall -Werror
+
+code: code.o
+	g++ -o code code.o
+code.o: code.cpp
+	gcc -c $(CFLAGS) code.cpp
