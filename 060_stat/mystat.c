@@ -183,7 +183,7 @@ void Access(Stat info) {
   printf("Access: (%04o/%s)  ", info.st_mode & ~S_IFMT, pmsn);
 }
 
-void user_info(Stat info) {
+void user_info(Stat info) {  //print out the user information
   struct passwd * pwd;
   struct group * gwd;
   pwd = getpwuid(info.st_uid);
@@ -209,9 +209,9 @@ char * time2str(const time_t * when, long ns) {
 }
 
 void times(Stat info) {  //print out the last four lines, i.e. times
-  char * atime = time2str(&info.st_atime, info.st_atim.tv_nsec);
-  char * mtime = time2str(&info.st_mtime, info.st_mtim.tv_nsec);
-  char * ctime = time2str(&info.st_ctime, info.st_ctim.tv_nsec);
+  char * atime = time2str(&info.st_atime, info.st_atim.tv_nsec);  //access time
+  char * mtime = time2str(&info.st_mtime, info.st_mtim.tv_nsec);  //modify time
+  char * ctime = time2str(&info.st_ctime, info.st_ctim.tv_nsec);  //change time
 
   printf("Access: %s\n", atime);
   printf("Modify: %s\n", mtime);
@@ -227,19 +227,19 @@ void times(Stat info) {  //print out the last four lines, i.e. times
 int main(int argc, char ** argv) {  //implement the function of 'stat'
   Stat info;
 
-  if (argc <= 1) {
+  if (argc <= 1) {  //if no arguments
     report_error("Usage: <pathname>\n");
   }
 
-  for (int i = 1; i < argc; i++) {
+  for (int i = 1; i < argc; i++) {  //for each input
     if (lstat(argv[i], &info) != 0) {
       report_error("Error occurs when calling 'lstat'!\n");
     }
 
-    first_three_lines(info, argv[i]);
-    Access(info);
-    user_info(info);
-    times(info);
+    first_three_lines(info, argv[i]);  //print out the first three lines of stat
+    Access(info);                      //print out the accessibility information
+    user_info(info);                   //print out the user information
+    times(info);                       //print out the files' manipulation time
   }
 
   return EXIT_SUCCESS;
