@@ -1,0 +1,8 @@
+#include "point.h"
+
+#include <cmath>
+#include <cstdio>
+
+void move(double dx, double dy) {
+  
+}
