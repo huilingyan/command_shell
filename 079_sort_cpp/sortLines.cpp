@@ -29,7 +29,8 @@ int main(int argc, char ** argv) {
   else {
     for (int i = 1; i < argc; i++) {
       files.open(argv[i], std::ifstream::in);
-      if (files.is_open() == 0) {
+      //if (files.fail()) {
+      if (!files.is_open()) {
         std::cerr << "Failed to open the file!\n" << std::endl;
         exit(EXIT_FAILURE);
       }
