@@ -1,0 +1,37 @@
+Grading at 10/23/2019:04:24:02.912449
+For commit ID b7a8730d2f04c3bfb2f0b7e05156cb6313a0138e
+Grading at Wed Oct 23 00:23:56 EDT 2019
+Looking for malloc in your files
+No uses found (good).
+Looking for free in your files
+No uses found (good).
+Looking for FILE in your files
+No uses found (good).
+Looking for realloc in your files
+No uses found (good).
+Looking for qsort in your files
+No uses found (good).
+Looking for printf in your files
+No uses found (good).
+Attempting to compile with make
+make: 'sortLines' is up to date.
+Using sortLines..
+#################################################
+testcase1:
+testcase1 passed, your program successfully indicated a failure
+valgrind was clean
+#################################################
+testcase2:
+Your output is correct
+  - Valgrind was clean (no errors, no memory leaks)
+valgrind was clean
+#################################################
+testcase3:
+Your output is correct
+  - Valgrind was clean (no errors, no memory leaks)
+valgrind was clean
+#################################################
+testcase4:
+Your output is incorrect
+
+Overall Grade: C
