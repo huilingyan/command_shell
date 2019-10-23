@@ -28,12 +28,13 @@ int main(int argc, char ** argv) {
   }
   else {
     for (int i = 1; i < argc; i++) {
-      files.open(argv[i]);
-      if (files.fail()) {
+      files.open(argv[i], std::ifstream::in);
+      if (files.is_open() == 0) {
         std::cerr << "Failed to open the file!\n" << std::endl;
         exit(EXIT_FAILURE);
       }
       sort_lines(files);
+      files.close();
     }
   }
   return EXIT_SUCCESS;
