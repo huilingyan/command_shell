@@ -1,26 +1,50 @@
-Grading at 11/01/2019:15:06:34.249030
-For commit ID 10945f60933d8b83b49fc28e20f9d1560ac21ea7
-Grading at Fri Nov  1 11:06:31 EDT 2019
+Grading at 11/01/2019:19:44:27.146252
+For commit ID 232a295f296aa6db211a06e53017d8f81ba02739
+Grading at Fri Nov  1 15:44:26 EDT 2019
 -----------------------------------------------
 testcase 1 : Testing with LinkedList<int>
 ...compiling...
-The code compiled.
-  - Valgrind was clean (no errors, no memory leaks)
-Your file matched the expected output
-Testcase passed 
+In file included from tester.cpp:1:0:
+ll.h: In member function ‘LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>&)’:
+ll.h:55:10: error: ‘swap’ is not a member of ‘std’
+     std::swap(head, rhs.head);
+          ^~~~
+ll.h:56:10: error: ‘swap’ is not a member of ‘std’
+     std::swap(tail, rhs.tail);
+          ^~~~
+ll.h:57:10: error: ‘swap’ is not a member of ‘std’
+     std::swap(size, rhs.size);
+          ^~~~
+The code did not compile.  This test failed.
 -----------------------------------------------
 testcase 2 : Testing with LinkedList<std::string>
 ...compiling...
-The code compiled.
-  - Valgrind was clean (no errors, no memory leaks)
-Your file matched the expected output
-Testcase passed 
+In file included from tester.cpp:1:0:
+ll.h: In member function ‘LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>&)’:
+ll.h:55:10: error: ‘swap’ is not a member of ‘std’
+     std::swap(head, rhs.head);
+          ^~~~
+ll.h:56:10: error: ‘swap’ is not a member of ‘std’
+     std::swap(tail, rhs.tail);
+          ^~~~
+ll.h:57:10: error: ‘swap’ is not a member of ‘std’
+     std::swap(size, rhs.size);
+          ^~~~
+The code did not compile.  This test failed.
 -----------------------------------------------
 testcase 3 : Testing with LinkedList<(a custom class we wrote)>
 ...compiling...
-The code compiled.
-  - Valgrind was clean (no errors, no memory leaks)
-Your file matched the expected output
-Testcase passed 
+In file included from tester.cpp:1:0:
+ll.h: In member function ‘LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>&)’:
+ll.h:55:10: error: ‘swap’ is not a member of ‘std’
+     std::swap(head, rhs.head);
+          ^~~~
+ll.h:56:10: error: ‘swap’ is not a member of ‘std’
+     std::swap(tail, rhs.tail);
+          ^~~~
+ll.h:57:10: error: ‘swap’ is not a member of ‘std’
+     std::swap(size, rhs.size);
+          ^~~~
+The code did not compile.  This test failed.
 
-Overall Grade: A
+Overall Grade: F
