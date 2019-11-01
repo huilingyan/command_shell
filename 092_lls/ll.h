@@ -36,7 +36,7 @@ class LinkedList {
     }
   }
   LinkedList & operator=(const LinkedList & rhs) {
-    if (this != &rhs) {
+    /*if (this != &rhs) {
       while (head != NULL) {
         Node * temp = head->next;
         delete head;
@@ -50,7 +50,11 @@ class LinkedList {
         current = current->prev;
       }
       size = rhs.size;
-    }
+      }*/
+    LinkedList temp(rhs);
+    std::swap(head, rhs.head);
+    std::swap(tail, rhs.tail);
+    std::swap(size, rhs.size);
     return *this;
   }
   ~LinkedList() {
