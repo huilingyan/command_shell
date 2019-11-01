@@ -4,7 +4,7 @@
 
 #include <cstdlib>
 #include <exception>
-
+#include <utility>
 //YOUR CODE GOES HERE
 
 class Error : public std::exception {
@@ -52,9 +52,9 @@ class LinkedList {
       size = rhs.size;
       }*/
     LinkedList temp(rhs);
-    std::swap(head, rhs.head);
-    std::swap(tail, rhs.tail);
-    std::swap(size, rhs.size);
+    std::swap(head, temp.head);
+    std::swap(tail, temp.tail);
+    std::swap(size, temp.size);
     return *this;
   }
   ~LinkedList() {
