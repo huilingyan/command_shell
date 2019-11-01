@@ -1,6 +1,6 @@
-Grading at 10/31/2019:15:50:25.599625
-For commit ID 33bbe375b67f0eb0c3bbe1b5232e6b5cb5b89eb3
-Grading at Thu Oct 31 11:50:05 EDT 2019
+Grading at 10/31/2019:16:51:16.026729
+For commit ID df70b3f71ee5bc7054feb041dfc44918a009b5df
+Grading at Thu Oct 31 12:50:56 EDT 2019
 **Testing correct implementation **
 -----------------------------------
   - Valgrind was clean (no errors, no memory leaks)
@@ -33,6 +33,7 @@ Grading at Thu Oct 31 11:50:05 EDT 2019
 
 **Testing broken implementation 18**
 -----------------------------------
+  - Valgrind reported errors
 
 **Testing broken implementation 19**
 -----------------------------------
@@ -57,12 +58,14 @@ Grading at Thu Oct 31 11:50:05 EDT 2019
 
 **Testing broken implementation 4**
 -----------------------------------
+  - Valgrind reported errors
 
 **Testing broken implementation 5**
 -----------------------------------
 
 **Testing broken implementation 6**
 -----------------------------------
+  - Valgrind reported errors
 
 **Testing broken implementation 7**
 -----------------------------------
