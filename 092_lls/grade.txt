@@ -1,50 +1,26 @@
-Grading at 11/01/2019:19:44:27.146252
-For commit ID 232a295f296aa6db211a06e53017d8f81ba02739
-Grading at Fri Nov  1 15:44:26 EDT 2019
+Grading at 11/01/2019:19:48:24.304622
+For commit ID 2279b36cbbfea9a9283f88d3c2eb20f8df564d62
+Grading at Fri Nov  1 15:48:21 EDT 2019
 -----------------------------------------------
 testcase 1 : Testing with LinkedList<int>
 ...compiling...
-In file included from tester.cpp:1:0:
-ll.h: In member function ‘LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>&)’:
-ll.h:55:10: error: ‘swap’ is not a member of ‘std’
-     std::swap(head, rhs.head);
-          ^~~~
-ll.h:56:10: error: ‘swap’ is not a member of ‘std’
-     std::swap(tail, rhs.tail);
-          ^~~~
-ll.h:57:10: error: ‘swap’ is not a member of ‘std’
-     std::swap(size, rhs.size);
-          ^~~~
-The code did not compile.  This test failed.
+The code compiled.
+  - Valgrind was clean (no errors, no memory leaks)
+Your file matched the expected output
+Testcase passed 
 -----------------------------------------------
 testcase 2 : Testing with LinkedList<std::string>
 ...compiling...
-In file included from tester.cpp:1:0:
-ll.h: In member function ‘LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>&)’:
-ll.h:55:10: error: ‘swap’ is not a member of ‘std’
-     std::swap(head, rhs.head);
-          ^~~~
-ll.h:56:10: error: ‘swap’ is not a member of ‘std’
-     std::swap(tail, rhs.tail);
-          ^~~~
-ll.h:57:10: error: ‘swap’ is not a member of ‘std’
-     std::swap(size, rhs.size);
-          ^~~~
-The code did not compile.  This test failed.
+The code compiled.
+  - Valgrind was clean (no errors, no memory leaks)
+Your file matched the expected output
+Testcase passed 
 -----------------------------------------------
 testcase 3 : Testing with LinkedList<(a custom class we wrote)>
 ...compiling...
-In file included from tester.cpp:1:0:
-ll.h: In member function ‘LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>&)’:
-ll.h:55:10: error: ‘swap’ is not a member of ‘std’
-     std::swap(head, rhs.head);
-          ^~~~
-ll.h:56:10: error: ‘swap’ is not a member of ‘std’
-     std::swap(tail, rhs.tail);
-          ^~~~
-ll.h:57:10: error: ‘swap’ is not a member of ‘std’
-     std::swap(size, rhs.size);
-          ^~~~
-The code did not compile.  This test failed.
+The code compiled.
+  - Valgrind was clean (no errors, no memory leaks)
+Your file matched the expected output
+Testcase passed 
 
-Overall Grade: F
+Overall Grade: A
