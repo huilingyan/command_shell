@@ -25,17 +25,17 @@ int main(void) {
   val1 = map.lookup(11);
   std::cout << "The corresponding value = " << val1 << std::endl;
 
-  /*  map.remove(93);
+  BstMap<int, int> map2 = map;
   map.printInOrder();
   std::cout << "\n";
-  map.remove(25);
+
+  /*map.remove(93);
   map.printInOrder();
   std::cout << "\n";*/
   map.remove(4);
   map.printInOrder();
   std::cout << "\n";
-
-  /*  BstMap<int, int> map2 = map;
+  /*map.remove(4);
   map.printInOrder();
   std::cout << "\n";*/
 

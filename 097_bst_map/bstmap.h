@@ -81,44 +81,69 @@ class BstMap : public Map<K, V> {
     if (root == NULL) {
       return NULL;
     }
-    Node * succ = root->right;
-    while (succ->left != NULL) {
-      succ = succ->left;
+    root = root->right;
+    while (root->left != NULL) {
+      root = root->left;
     }
-    return succ;
+    return root;
+  }
+  Node * rm_helper(const K & key, Node * current) {
+    if (current == NULL) {
+      return NULL;
+    }
+
+    if (key < current->key) {
+      current->left = rm_helper(key, current->left);
+      return current;
+    }
+    else if (key > current->key) {
+      current->right = rm_helper(key, current->right);
+      return current;
+    }
+    else {
+      if (current->right == NULL) {  //the tree only have the left child
+        Node * temp = current->left;
+        delete current;
+        current = temp;
+      }
+      else if (current->left == NULL) {  //the tree only have the right child
+        Node * temp = current->right;
+        delete current;
+        current = temp;
+      }
+      else {  //the tree has two children
+        Node * successor = find_succ(current);
+        /*std::swap(successor->key, current->key);
+	  std::swap(successor->value, current->value);*/
+        current->key = successor->key;
+        current->value = successor->value;
+        current->right = rm_helper(successor->key, current->right);
+        /*successor = rm_helper(key, successor);*/
+      }
+      return current;
+    }
   }
   virtual void remove(const K & key) {
-    Node ** current = &root;
-    while ((*current) != NULL) {
-      if ((*current)->key > key) {
-        *current = (*current)->right;
+    root = rm_helper(key, root);
+    /*Node ** current = &root;
+    while () {
+      if ((*current)->left->key == key) {
+        (*current)->left = rm_helper(key, (*current)->left);
+        return;
       }
-      else if ((*current)->key < key) {
-        *current = (*current)->left;
+      else if ((*current)->right->key == key) {
+        (*current)->right = rm_helper(key, (*current)->right);
+        return;
       }
-      else {                              //find the key to remove
-        if ((*current)->right == NULL) {  //the tree only have the left child
-          Node * temp = (*current)->left;
-          delete *current;
-          *current = temp;
+      else {
+        if (key < (*current)->key) {
+          (*current) = (*current)->left;
         }
-        else if ((*current)->left == NULL) {  //the tree only have the right child
-          Node * temp = (*current)->right;
-          delete *current;
-          *current = temp;
-        }
-        else {  //the tree has two children
-          Node * successor = find_succ(*current);
-          (*current)->key = successor->key;
-          const V val = successor->value;
-          Node * temp = successor->right;
-          delete successor;
-          successor = temp;
-
-          add((*current)->key, val);
+        if (key > (*current)->key) {
+          (*current) = (*current)->right;
         }
       }
-    }
+      }*/
   }
 
   //destructor
