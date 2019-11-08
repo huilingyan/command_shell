@@ -123,12 +123,11 @@ class BstMap : public Map<K, V> {
 
   //destructor
   void destroy(Node * node) {
-    if (node == NULL) {
-      return;
+    if (node != NULL) {
+      destroy(node->left);
+      destroy(node->right);
+      delete node;
     }
-    destroy(node->left);
-    destroy(node->right);
-    delete node;
   }
   virtual ~BstMap<K, V>() { destroy(root); }
 
