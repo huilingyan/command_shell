@@ -123,28 +123,7 @@ class BstMap : public Map<K, V> {
       return current;
     }
   }
-  virtual void remove(const K & key) {
-    root = rm_helper(key, root);
-    /*Node ** current = &root;
-    while () {
-      if ((*current)->left->key == key) {
-        (*current)->left = rm_helper(key, (*current)->left);
-        return;
-      }
-      else if ((*current)->right->key == key) {
-        (*current)->right = rm_helper(key, (*current)->right);
-        return;
-      }
-      else {
-        if (key < (*current)->key) {
-          (*current) = (*current)->left;
-        }
-        if (key > (*current)->key) {
-          (*current) = (*current)->right;
-        }
-      }
-      }*/
-  }
+  virtual void remove(const K & key) { root = rm_helper(key, root); }
 
   //destructor
   void destroy(Node * node) {
