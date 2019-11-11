@@ -28,7 +28,7 @@ void printSym(std::ostream & s, unsigned sym) {
 uint64_t * readFrequencies(const char * fname) {
   //WRITE ME!
   int ch;
-  uint64_t * freqn = new uint64_t[256]();
+  uint64_t * freqn = new uint64_t[257]();
   std::ifstream f;
   f.open(fname);
   if (!f.is_open()) {
