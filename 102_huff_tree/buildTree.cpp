@@ -2,11 +2,12 @@
 
 Node * buildTree(uint64_t * counts) {
   //WRITE ME!
-
   //construct the priority queue
   priority_queue_t pq;
   for (int i = 0; i < 257; i++) {
-    pq.push(new Node(i, counts[i]));
+    if (counts[i] != 0) {
+      pq.push(new Node(i, counts[i]));
+    }
   }
   //construct the huffman tree
   if (pq.size() == 0) {
