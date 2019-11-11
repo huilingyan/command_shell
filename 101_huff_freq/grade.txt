@@ -1,204 +1,32 @@
-Grading at 11/11/2019:18:56:19.140603
-For commit ID c45159b5fcfdddeebc935accb09fd546a82a7472
-Grading at Mon Nov 11 13:56:14 EST 2019
+Grading at 11/11/2019:18:59:22.952585
+For commit ID ac924c4fca381814b4148d7b46b3642087ae7d8b
+Grading at Mon Nov 11 13:59:18 EST 2019
 compiling
 g++ -ggdb3 -Wall -Werror -pedantic -o testFreq testFreq.cpp readFreq.cpp
 Make succeed, testFreq created
 Testcase 1
 -----------------------
-  - Valgrind reported errors
-Valgrind reported errors (test failed).
-==67277== Memcheck, a memory error detector
-==67277== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==67277== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
-==67277== Command: ./testFreq /etc/issue
-==67277== Parent PID: 67276
-==67277== 
-==67277== Invalid read of size 8
-==67277==    at 0x1093E1: readFrequencies(char const*) (readFreq.cpp:41)
-==67277==    by 0x109067: main (testFreq.cpp:10)
-==67277==  Address 0x5b7e480 is 0 bytes after a block of size 2,048 alloc'd
-==67277==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==67277==    by 0x1092ED: readFrequencies(char const*) (readFreq.cpp:31)
-==67277==    by 0x109067: main (testFreq.cpp:10)
-==67277== 
-==67277== Invalid write of size 8
-==67277==    at 0x1093E8: readFrequencies(char const*) (readFreq.cpp:41)
-==67277==    by 0x109067: main (testFreq.cpp:10)
-==67277==  Address 0x5b7e480 is 0 bytes after a block of size 2,048 alloc'd
-==67277==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==67277==    by 0x1092ED: readFrequencies(char const*) (readFreq.cpp:31)
-==67277==    by 0x109067: main (testFreq.cpp:10)
-==67277== 
-==67277== Invalid read of size 8
-==67277==    at 0x1090B8: main (testFreq.cpp:13)
-==67277==  Address 0x5b7e480 is 0 bytes after a block of size 2,048 alloc'd
-==67277==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==67277==    by 0x1092ED: readFrequencies(char const*) (readFreq.cpp:31)
-==67277==    by 0x109067: main (testFreq.cpp:10)
-==67277== 
-==67277== Invalid read of size 8
-==67277==    at 0x1090F9: main (testFreq.cpp:17)
-==67277==  Address 0x5b7e480 is 0 bytes after a block of size 2,048 alloc'd
-==67277==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==67277==    by 0x1092ED: readFrequencies(char const*) (readFreq.cpp:31)
-==67277==    by 0x109067: main (testFreq.cpp:10)
-==67277== 
-==67277== 
-==67277== HEAP SUMMARY:
-==67277==     in use at exit: 0 bytes in 0 blocks
-==67277==   total heap usage: 5 allocs, 5 frees, 87,592 bytes allocated
-==67277== 
-==67277== All heap blocks were freed -- no leaks are possible
-==67277== 
-==67277== For counts of detected and suppressed errors, rerun with: -v
-==67277== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 0 from 0)
+  - Valgrind was clean (no errors, no memory leaks)
+Checking output:
+Your file matched the expected output
+Testcase passed 
 Testcase 2
 -----------------------
-  - Valgrind reported errors
-Valgrind reported errors (test failed).
-==67281== Memcheck, a memory error detector
-==67281== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==67281== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
-==67281== Command: ./testFreq /etc/services
-==67281== Parent PID: 67280
-==67281== 
-==67281== Invalid read of size 8
-==67281==    at 0x1093E1: readFrequencies(char const*) (readFreq.cpp:41)
-==67281==    by 0x109067: main (testFreq.cpp:10)
-==67281==  Address 0x5b7e480 is 0 bytes after a block of size 2,048 alloc'd
-==67281==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==67281==    by 0x1092ED: readFrequencies(char const*) (readFreq.cpp:31)
-==67281==    by 0x109067: main (testFreq.cpp:10)
-==67281== 
-==67281== Invalid write of size 8
-==67281==    at 0x1093E8: readFrequencies(char const*) (readFreq.cpp:41)
-==67281==    by 0x109067: main (testFreq.cpp:10)
-==67281==  Address 0x5b7e480 is 0 bytes after a block of size 2,048 alloc'd
-==67281==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==67281==    by 0x1092ED: readFrequencies(char const*) (readFreq.cpp:31)
-==67281==    by 0x109067: main (testFreq.cpp:10)
-==67281== 
-==67281== Invalid read of size 8
-==67281==    at 0x1090B8: main (testFreq.cpp:13)
-==67281==  Address 0x5b7e480 is 0 bytes after a block of size 2,048 alloc'd
-==67281==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==67281==    by 0x1092ED: readFrequencies(char const*) (readFreq.cpp:31)
-==67281==    by 0x109067: main (testFreq.cpp:10)
-==67281== 
-==67281== Invalid read of size 8
-==67281==    at 0x1090F9: main (testFreq.cpp:17)
-==67281==  Address 0x5b7e480 is 0 bytes after a block of size 2,048 alloc'd
-==67281==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==67281==    by 0x1092ED: readFrequencies(char const*) (readFreq.cpp:31)
-==67281==    by 0x109067: main (testFreq.cpp:10)
-==67281== 
-==67281== 
-==67281== HEAP SUMMARY:
-==67281==     in use at exit: 0 bytes in 0 blocks
-==67281==   total heap usage: 5 allocs, 5 frees, 87,592 bytes allocated
-==67281== 
-==67281== All heap blocks were freed -- no leaks are possible
-==67281== 
-==67281== For counts of detected and suppressed errors, rerun with: -v
-==67281== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 0 from 0)
+  - Valgrind was clean (no errors, no memory leaks)
+Checking output:
+Your file matched the expected output
+Testcase passed 
 Testcase 3
 -----------------------
-  - Valgrind reported errors
-Valgrind reported errors (test failed).
-==67294== Memcheck, a memory error detector
-==67294== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==67294== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
-==67294== Command: ./testFreq /usr/share/dict/words
-==67294== Parent PID: 67293
-==67294== 
-==67294== Invalid read of size 8
-==67294==    at 0x1093E1: readFrequencies(char const*) (readFreq.cpp:41)
-==67294==    by 0x109067: main (testFreq.cpp:10)
-==67294==  Address 0x5b7e480 is 0 bytes after a block of size 2,048 alloc'd
-==67294==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==67294==    by 0x1092ED: readFrequencies(char const*) (readFreq.cpp:31)
-==67294==    by 0x109067: main (testFreq.cpp:10)
-==67294== 
-==67294== Invalid write of size 8
-==67294==    at 0x1093E8: readFrequencies(char const*) (readFreq.cpp:41)
-==67294==    by 0x109067: main (testFreq.cpp:10)
-==67294==  Address 0x5b7e480 is 0 bytes after a block of size 2,048 alloc'd
-==67294==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==67294==    by 0x1092ED: readFrequencies(char const*) (readFreq.cpp:31)
-==67294==    by 0x109067: main (testFreq.cpp:10)
-==67294== 
-==67294== Invalid read of size 8
-==67294==    at 0x1090B8: main (testFreq.cpp:13)
-==67294==  Address 0x5b7e480 is 0 bytes after a block of size 2,048 alloc'd
-==67294==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==67294==    by 0x1092ED: readFrequencies(char const*) (readFreq.cpp:31)
-==67294==    by 0x109067: main (testFreq.cpp:10)
-==67294== 
-==67294== Invalid read of size 8
-==67294==    at 0x1090F9: main (testFreq.cpp:17)
-==67294==  Address 0x5b7e480 is 0 bytes after a block of size 2,048 alloc'd
-==67294==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==67294==    by 0x1092ED: readFrequencies(char const*) (readFreq.cpp:31)
-==67294==    by 0x109067: main (testFreq.cpp:10)
-==67294== 
-==67294== 
-==67294== HEAP SUMMARY:
-==67294==     in use at exit: 0 bytes in 0 blocks
-==67294==   total heap usage: 5 allocs, 5 frees, 87,592 bytes allocated
-==67294== 
-==67294== All heap blocks were freed -- no leaks are possible
-==67294== 
-==67294== For counts of detected and suppressed errors, rerun with: -v
-==67294== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 0 from 0)
+  - Valgrind was clean (no errors, no memory leaks)
+Checking output:
+Your file matched the expected output
+Testcase passed 
 Testcase 4
 -----------------------
-  - Valgrind reported errors
-Valgrind reported errors (test failed).
-==67298== Memcheck, a memory error detector
-==67298== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==67298== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
-==67298== Command: ./testFreq /usr/share/dict/cracklib-small
-==67298== Parent PID: 67297
-==67298== 
-==67298== Invalid read of size 8
-==67298==    at 0x1093E1: readFrequencies(char const*) (readFreq.cpp:41)
-==67298==    by 0x109067: main (testFreq.cpp:10)
-==67298==  Address 0x5b7e480 is 0 bytes after a block of size 2,048 alloc'd
-==67298==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==67298==    by 0x1092ED: readFrequencies(char const*) (readFreq.cpp:31)
-==67298==    by 0x109067: main (testFreq.cpp:10)
-==67298== 
-==67298== Invalid write of size 8
-==67298==    at 0x1093E8: readFrequencies(char const*) (readFreq.cpp:41)
-==67298==    by 0x109067: main (testFreq.cpp:10)
-==67298==  Address 0x5b7e480 is 0 bytes after a block of size 2,048 alloc'd
-==67298==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==67298==    by 0x1092ED: readFrequencies(char const*) (readFreq.cpp:31)
-==67298==    by 0x109067: main (testFreq.cpp:10)
-==67298== 
-==67298== Invalid read of size 8
-==67298==    at 0x1090B8: main (testFreq.cpp:13)
-==67298==  Address 0x5b7e480 is 0 bytes after a block of size 2,048 alloc'd
-==67298==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==67298==    by 0x1092ED: readFrequencies(char const*) (readFreq.cpp:31)
-==67298==    by 0x109067: main (testFreq.cpp:10)
-==67298== 
-==67298== Invalid read of size 8
-==67298==    at 0x1090F9: main (testFreq.cpp:17)
-==67298==  Address 0x5b7e480 is 0 bytes after a block of size 2,048 alloc'd
-==67298==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==67298==    by 0x1092ED: readFrequencies(char const*) (readFreq.cpp:31)
-==67298==    by 0x109067: main (testFreq.cpp:10)
-==67298== 
-==67298== 
-==67298== HEAP SUMMARY:
-==67298==     in use at exit: 0 bytes in 0 blocks
-==67298==   total heap usage: 5 allocs, 5 frees, 87,592 bytes allocated
-==67298== 
-==67298== All heap blocks were freed -- no leaks are possible
-==67298== 
-==67298== For counts of detected and suppressed errors, rerun with: -v
-==67298== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 0 from 0)
+  - Valgrind was clean (no errors, no memory leaks)
+Checking output:
+Your file matched the expected output
+Testcase passed 
 
-Overall Grade: F
+Overall Grade: A
