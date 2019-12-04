@@ -162,6 +162,11 @@ int main(int argc, char * argv[]) {
     std::getline(std::cin, command);
     command = skip_white_space(command);
     if ((!command.compare("exit")) || (std::cin.eof())) {  //if exit or end of file
+      std::map<char *, char *>::iterator it = VarToVal.begin();
+      for (it = VarToVal.begin(); it != VarToVal.end(); ++it) {
+        free(it->first);
+        free(it->second);
+      }
       return EXIT_SUCCESS;
     }
 
@@ -201,8 +206,8 @@ int main(int argc, char * argv[]) {
       for (it = VarToVal.begin(); it != VarToVal.end(); ++it) {
         std::cout << it->first << " => " << it->second << std::endl;
       }
-      free(key);
-      free(value);
+      //free(key);
+      //free(value);
     }
     else {
       if (path_org.find("/") ==
