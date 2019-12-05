@@ -1,5 +1,4 @@
 #include <limits.h>
-#include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -8,6 +7,7 @@
 #include <algorithm>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <exception>
 #include <fstream>
 #include <iostream>
@@ -24,6 +24,25 @@ std::string skip_white_space(std::string str) {
   }
   return str;
 }
+
+std::string reverse(std::string & s) {
+  std::string answer(s.length(), '\0');
+  for (size_t i = 0; i < s.length(); i++) {
+    answer[i] = s[s.length() - 1 - i];
+  }
+  return answer;
+}
+
+void StrVecToCharArr(char **& arr, std::vector<std::string> & vec) {
+  for (std::vector<std::string>::size_type i = 0; i != vec.size(); ++i) {
+    //const char * temp;
+    //temp = vec[i].c_str();
+    //arr[i] = const_cast<char *>(temp);
+    arr[i] = const_cast<char *>(vec[i].c_str());
+    std::cout << arr[i] << std::endl;
+  }
+}
+
 //when read in an command, split it for execve()
 char ** parse(std::string & command) {
   std::vector<std::string> str_split;
@@ -33,83 +52,105 @@ char ** parse(std::string & command) {
   //skip the leading white space
   command = skip_white_space(command);
   //parse the command out, set as argv[0]
-  if (command.find(" ") != std::string::npos) {
-    std::string first_command = command.substr(0, command.find(" "));
-    str_split.push_back(first_command);
-    command.erase(0, command.find(" "));
-  }
+  std::string first_command = command.substr(0, command.find(" "));
+  str_split.push_back(first_command);
+  command.erase(0, command.find(" "));
+
   std::string arguments = skip_white_space(command);
 
-  //parse the arguments
-  std::string::size_type i = 0;
-
-  while (i != arguments.length()) {  // if not end of string
-    if (arguments[i] == '\\') {      //if backslash
-      if (backslash) {               // if backslash before
-        backslash = 0;
-        i++;
-        continue;
-      }
-      else {  //if not backslash before
-        backslash = 1;
-        arguments.erase(i, 1);
-        continue;
-      }
+  if (str_split[0] == "set") {  // if the command is "set", parse specially
+    if (arguments.find(" ") == std::string::npos) {  //if there's no value to set
+      std::cerr << "No value. Invalid use of set!" << std::endl;
+      exit(EXIT_FAILURE);
     }
-
-    else if (arguments[i] == '"') {  //if quotation mark
-      if (backslash) {               // if backslash before
-        backslash = 0;
-        i++;
-        continue;
+    else {
+      size_t pos = arguments.find(" ");
+      std::string var = arguments.substr(0, pos);
+      for (std::string::size_type i = 0; i < var.length(); i++) {
+        if (!(isalnum(var[i]) || (var[i] == '_'))) {  // if not legal var name
+          std::cerr << "Invalid variable name!" << std::endl;
+          exit(EXIT_FAILURE);
+        }
       }
-      else {                 // if not backslash before
-        if (closed_quote) {  // if has unclosed quotation mark
-          closed_quote = 0;
+      str_split.push_back(var);
+      arguments = arguments.erase(0, pos);
+      std::string value = skip_white_space(
+          arguments);  // skip the leading space and rest of argument is set as value
+      str_split.push_back(value);
+    }
+  }
+  else {
+    //parse the arguments regularly
+    std::string::size_type i = 0;
+
+    while (i != arguments.length()) {  // if not end of string
+      if (arguments[i] == '\\') {      //if backslash
+        if (backslash) {               // if backslash before
+          backslash = 0;
+          i++;
+          continue;
+        }
+        else {  //if not backslash before
+          backslash = 1;
           arguments.erase(i, 1);
+          continue;
+        }
+      }
+
+      else if (arguments[i] == '"') {  //if quotation mark
+        if (backslash) {               // if backslash before
+          backslash = 0;
+          i++;
+          continue;
+        }
+        else {                 // if not backslash before
+          if (closed_quote) {  // if has unclosed quotation mark
+            closed_quote = 0;
+            arguments.erase(i, 1);
+            continue;
+          }
+          else {  // if no unclosed quotation mark
+            closed_quote = 1;
+            arguments.erase(i, 1);
+            continue;
+          }
+        }
+      }
+
+      else if (arguments[i] == ' ') {  // if white space
+        if (backslash) {
+          backslash = 0;
+        }
+
+        if (closed_quote) {  // if unclosed quotation mark
+          i++;
           continue;
         }
         else {  // if no unclosed quotation mark
-          closed_quote = 1;
-          arguments.erase(i, 1);
+          std::string parts_of_argu = arguments.substr(0, i);  //take as argument
+          str_split.push_back(parts_of_argu);                  // put argument into argv[]
+          arguments.erase(0, i);                               //erase current argument
+          arguments = skip_white_space(
+              arguments);  // skip the leading white space before next argument
+          i = 0;
           continue;
         }
       }
-    }
 
-    else if (arguments[i] == ' ') {  // if white space
-      if (backslash) {
-        backslash = 0;
-      }
-
-      if (closed_quote) {  // if unclosed quotation mark
+      else {  // if normal character
+        if (backslash) {
+          backslash = 0;
+        }
         i++;
         continue;
       }
-      else {  // if no unclosed quotation mark
-        std::string parts_of_argu = arguments.substr(0, i);  //take as argument
-        str_split.push_back(parts_of_argu);                  // put argument into argv[]
-        arguments.erase(0, i);                               //erase current argument
-        arguments = skip_white_space(
-            arguments);  // skip the leading white space before next argument
-        i = 0;
-        continue;
-      }
     }
-
-    else {  // if normal character
-      if (backslash) {
-        backslash = 0;
-      }
-      i++;
-      continue;
+    if (!arguments.empty()) {  // for the last argument
+      str_split.push_back(arguments);
     }
-  }
-  if (!arguments.empty()) {  // for the last argument
-    str_split.push_back(arguments);
-  }
-  if (closed_quote) {
-    std::cout << "Error: Unclosed quotation mark!" << std::endl;
+    if (closed_quote) {
+      std::cout << "Error: Unclosed quotation mark!" << std::endl;
+    }
   }
 
   char ** cmd_parse = new char *[str_split.size() + 1];
@@ -148,14 +189,58 @@ std::string getFullPath(std::string & command, char * envList) {
   return "No path found";
 }
 
+bool ExportVar(char * var,
+               std::map<char *, char *> & VarMap,
+               std::vector<std::string> & Env) {
+  std::string VarToAdd = var;
+  std::map<char *, char *>::iterator it = VarMap.begin();
+  for (it = VarMap.begin(); it != VarMap.end(); ++it) {
+    std::string keyToComp = it->first;
+    std::string ValueToComp = it->second;
+    if (keyToComp == VarToAdd) {
+      Env.push_back(keyToComp + "=" + ValueToComp);
+      return true;
+    }
+  }
+  return false;
+}
+
+//substitute every var with value
+void VarParse(std::string & command, std::map<char *, char *> & VarToVal) {
+  std::string::size_type pos = 0;
+  while (pos < command.length()) {
+    if ((pos = command.find("$", pos)) != std::string::npos) {
+      std::map<char *, char *>::iterator it = VarToVal.begin();
+      for (it = VarToVal.begin(); it != VarToVal.end(); ++it) {
+        std::string keyToFind = it->first;
+        std::string keyToSubt = "$" + keyToFind;
+        std::string ValToSubt = it->second;
+        if (command.find(keyToSubt, pos) != std::string::npos) {
+          command.replace(pos, keyToSubt.length(), ValToSubt);
+          pos += ValToSubt.length();
+          break;
+        }
+      }
+    }
+    return;
+  }
+  return;
+}
+
 int main(int argc, char * argv[]) {
   std::string command;
+  //std::string cmd_sbstd;
   char ** parsed_command;
   pid_t child_pid, w;
   int wstatus;
   char curr_dirt[PATH_MAX];
   std::map<char *, char *> VarToVal;
-  //std::vector<std::pair<char *, char *> > VarToVal;
+  std::vector<std::string> Environ;
+  char * ECE551PATH = getenv("PATH");
+  char envVar[LIM];
+  strcpy(envVar, "ECE551PATH=");
+  strcat(envVar, ECE551PATH);
+  Environ.push_back(envVar);
 
   while (1) {
     std::cout << "ffosh:" << getcwd(curr_dirt, PATH_MAX) << " $ ";
@@ -170,35 +255,24 @@ int main(int argc, char * argv[]) {
       return EXIT_SUCCESS;
     }
 
-    char * ECE551PATH = getenv("PATH");
-    //setenv("ECE551PATH", path, 1);
-    //char * newPath = getenv("ECE551PATH");
-
-    //print out for test
-    //std::cout << ECE551PATH << std::endl;
-
-    char envVar[LIM];
-    strcpy(envVar, "ECE551PATH=");
-    char * newEnv[] = {strcat(envVar, ECE551PATH), NULL};
-
+    VarParse(command, VarToVal);
     parsed_command = parse(command);
+    //parsed_command = parse(command);
 
     std::string path_org = parsed_command[0];
 
     if (path_org == "cd") {                  // if the command is "cd"
       if (chdir(parsed_command[1]) == -1) {  //if chdir() failed
-        perror("chdir");
-        exit(EXIT_FAILURE);
+                                             //perror("chdir");
+                                             //exit(EXIT_FAILURE);
+        std::cerr << "No such file or directory!" << std::endl;
+        continue;  // exit and repeat the process
       }
     }
     else if (path_org == "set") {  //if the command is "set"
       char * key = strdup(parsed_command[1]);
       char * value = strdup(parsed_command[2]);
-      //std::pair<char *, char *> kvPairs(parsed_command[1], parsed_command[2]);
-      //VarToVal.insert(
-      //std::map<char *, char *>::value_type(parsed_command[1], parsed_command[2]));
       VarToVal.insert(std::pair<char *, char *>(key, value));
-      //VarToVal.push_back(std::make_pair(parsed_command[1], parsed_command[2]));
 
       // print out the elements of map for test
       std::map<char *, char *>::iterator it = VarToVal.begin();
@@ -206,9 +280,41 @@ int main(int argc, char * argv[]) {
       for (it = VarToVal.begin(); it != VarToVal.end(); ++it) {
         std::cout << it->first << " => " << it->second << std::endl;
       }
-      //free(key);
-      //free(value);
     }
+    else if (path_org == "rev") {
+      std::string var_to_rev = parsed_command[1];
+      std::map<char *, char *>::iterator it = VarToVal.begin();
+      for (it = VarToVal.begin(); it != VarToVal.end(); ++it) {
+        std::string keyToCompare = it->first;
+        std::string ValueToRev = it->second;
+        if (keyToCompare == var_to_rev) {
+          ValueToRev = reverse(ValueToRev);
+          strcpy(it->second, ValueToRev.c_str());
+          break;
+        }
+      }
+      if (it == VarToVal.end()) {
+        std::cerr << "No such variable!" << std::endl;
+        continue;
+      }
+      else {
+        std::cout << "After reverse, the value is:" << it->second << std::endl;
+        continue;
+      }
+    }
+    else if (path_org == "export") {
+      char * VarToExp = strdup(parsed_command[1]);
+      if (!ExportVar(VarToExp, VarToVal, Environ)) {
+        std::cerr << "No such variable to export!" << std::endl;
+      }
+      // print out for test
+      for (std::string::size_type j = 0; j < Environ.size(); j++) {
+        std::cout << Environ[j] << std::endl;
+      }
+
+      continue;
+    }
+
     else {
       if (path_org.find("/") ==
           std::string::
@@ -221,6 +327,10 @@ int main(int argc, char * argv[]) {
         parsed_command[0] = const_cast<char *>(path_full.c_str());
       }
 
+      char ** newEnv = new char *[Environ.size() + 1];
+      StrVecToCharArr(newEnv, Environ);
+      newEnv[Environ.size()] = NULL;
+
       // create new process
       child_pid = fork();    //create the child process
       if (child_pid == 0) {  // Codes executed by child process
@@ -232,6 +342,9 @@ int main(int argc, char * argv[]) {
       }
       else {  // Code executed by parent process
         delete[] parsed_command;
+        /*for (size_t i = 0; i < Environ.size() + 1; i++) {
+          delete newEnv[i];
+	  }*/
         do {
           w = waitpid(child_pid, &wstatus, WUNTRACED | WCONTINUED);
           if (w == -1) {
