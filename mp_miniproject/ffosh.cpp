@@ -19,6 +19,7 @@
 #define LIM 100
 
 std::string skip_white_space(std::string str) {
+  //void skip_white_space(std::string str) {
   if (str.find_first_not_of(" ") != std::string::npos) {
     str.erase(0, str.find_first_not_of(" "));
   }
@@ -55,6 +56,7 @@ std::vector<std::string> parse(std::string & command) {
 
   //skip the leading white space
   command = skip_white_space(command);
+  //skip_white_space(command);
   //parse the command out, set as argv[0]
   std::string first_command = command.substr(0, command.find(" "));
   str_split.push_back(first_command);
@@ -179,7 +181,7 @@ std::string getFullPath(std::string & command, char * envList) {
       return fullPath;
     }
   }
-  return "No path found";
+  return command;
 }
 
 bool ExportVar(char * var,
@@ -214,7 +216,10 @@ void VarParse(std::string & command, std::map<char *, char *> & VarToVal) {
           break;
         }
       }
+      pos += 1;
+      continue;
     }
+
     return;
   }
   return;
@@ -238,7 +243,8 @@ int main(int argc, char * argv[]) {
   while (1) {
     std::cout << "ffosh:" << getcwd(curr_dirt, PATH_MAX) << " $ ";
     std::getline(std::cin, command);
-    //command = skip_white_space(command);
+
+    // checkExit
     if ((!command.compare("exit")) || (std::cin.eof())) {  //if exit or end of file
       std::map<char *, char *>::iterator it = VarToVal.begin();
       for (it = VarToVal.begin(); it != VarToVal.end(); ++it) {
@@ -248,18 +254,22 @@ int main(int argc, char * argv[]) {
       return EXIT_SUCCESS;
     }
 
+    // checkEmptyCmd
     if ((command.find_first_not_of(" ") == std::string::npos) ||
         (command.empty())) {  // if no command
       continue;
     }
 
+    // CommandParse
     VarParse(command, VarToVal);
     cmdParse = parse(command);
     StrVecToCharArr(parsed_command, cmdParse);  //Need converting to char** for execve()
 
+    // CheckBuiltinFunc
     std::string path_org = parsed_command[0];
 
-    if (path_org == "cd") {                  // if the command is "cd"
+    if (path_org == "cd") {  // if the command is "cd"
+      // ChangeDirt
       if (chdir(parsed_command[1]) == -1) {  //if chdir() failed
                                              //perror("chdir");
                                              //exit(EXIT_FAILURE);
@@ -267,7 +277,8 @@ int main(int argc, char * argv[]) {
         continue;  // exit and repeat the process
       }
     }
-    else if (path_org == "set") {  //if the command is "set"
+    if (path_org == "set") {  //if the command is "set"
+      //SetVar
       char * key = strdup(parsed_command[1]);
       char * value = strdup(parsed_command[2]);
       VarToVal.insert(std::pair<char *, char *>(key, value));
@@ -278,8 +289,11 @@ int main(int argc, char * argv[]) {
       for (it = VarToVal.begin(); it != VarToVal.end(); ++it) {
         std::cout << it->first << " => " << it->second << std::endl;
       }
+      continue;
     }
-    else if (path_org == "rev") {
+
+    if (path_org == "rev") {
+      //RevVal
       std::string var_to_rev = parsed_command[1];
       std::map<char *, char *>::iterator it = VarToVal.begin();
       for (it = VarToVal.begin(); it != VarToVal.end(); ++it) {
@@ -300,7 +314,9 @@ int main(int argc, char * argv[]) {
         continue;
       }
     }
-    else if (path_org == "export") {
+
+    if (path_org == "export") {
+      //ExPortVar
       char * VarToExp = strdup(parsed_command[1]);
       if (!ExportVar(VarToExp, VarToVal, Environ)) {
         std::cerr << "No such variable to export!" << std::endl;
@@ -313,58 +329,55 @@ int main(int argc, char * argv[]) {
       continue;
     }
 
-    else {
-      if (path_org.find("/") ==
-          std::string::
-              npos) {  //if the command doesn't have "/", then search for the path
+    if (path_org.find("/") ==
+        std::string::npos) {  //if the command doesn't have "/", then search for the path
 
-        std::string path_full = getFullPath(path_org, ECE551PATH);
-        if (path_full == "No path found") {
-          std::cout << "Command " << path_org << " not found" << std::endl;
-        }
+      std::string path_full = getFullPath(path_org, ECE551PATH);
+      if (path_full == path_org) {
+        std::cout << "Command " << path_org << " not found" << std::endl;
+      }
+      else {
         parsed_command[0] = const_cast<char *>(path_full.c_str());
       }
+      //strcpy(parsed_command[0], path_full.c_str());
+    }
 
-      char ** newEnv;
-      StrVecToCharArr(newEnv, Environ);
-      //newEnv[Environ.size()] = NULL;
+    char ** newEnv;
+    StrVecToCharArr(newEnv, Environ);
 
-      // create new process
-      child_pid = fork();    //create the child process
-      if (child_pid == 0) {  // Codes executed by child process
-        if (execve(parsed_command[0], parsed_command, newEnv) ==
-            -1) {  //if execve() failed
-          perror("execve");
-          // Have to handle memory by ourselves
-          for (std::string::size_type j = 0; j < cmdParse.size(); j++) {
-            delete[] parsed_command[j];
-          }
-          delete[] parsed_command;
+    // create new process
+    child_pid = fork();    //create the child process
+    if (child_pid == 0) {  // Codes executed by child process
+      if (execve(parsed_command[0], parsed_command, newEnv) == -1) {  //if execve() failed
+        perror("execve");
+        // Have to handle memory by ourselves
+        for (std::string::size_type j = 0; j < cmdParse.size(); j++) {
+          delete[] parsed_command[j];
+        }
+        delete[] parsed_command;
+        exit(EXIT_FAILURE);
+      }
+    }
+    else {  // Code executed by parent process
+      do {
+        w = waitpid(child_pid, &wstatus, WUNTRACED | WCONTINUED);
+        if (w == -1) {
+          perror("waitpid");
           exit(EXIT_FAILURE);
         }
-      }
-      else {  // Code executed by parent process
-        do {
-          w = waitpid(child_pid, &wstatus, WUNTRACED | WCONTINUED);
-          if (w == -1) {
-            perror("waitpid");
-            exit(EXIT_FAILURE);
-          }
 
-          if (WIFEXITED(wstatus)) {
-            if (!WEXITSTATUS(wstatus)) {
-              std::cout << "Program was successful" << std::endl;
-            }
-            else {
-              std::cout << "Program failed with code " << WEXITSTATUS(wstatus)
-                        << std::endl;
-            }
+        if (WIFEXITED(wstatus)) {
+          if (!WEXITSTATUS(wstatus)) {
+            std::cout << "Program was successful" << std::endl;
           }
-          else if (WIFSIGNALED(wstatus)) {
-            std::cout << "Terminated by signal " << WTERMSIG(wstatus) << std::endl;
+          else {
+            std::cout << "Program failed with code " << WEXITSTATUS(wstatus) << std::endl;
           }
-        } while (!WIFEXITED(wstatus) && !WIFSIGNALED(wstatus));
-      }
+        }
+        else if (WIFSIGNALED(wstatus)) {
+          std::cout << "Terminated by signal " << WTERMSIG(wstatus) << std::endl;
+        }
+      } while (!WIFEXITED(wstatus) && !WIFSIGNALED(wstatus));
     }
   }
 
