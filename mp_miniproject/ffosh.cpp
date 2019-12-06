@@ -34,17 +34,21 @@ std::string reverse(std::string & s) {
 }
 
 void StrVecToCharArr(char **& arr, std::vector<std::string> & vec) {
-  for (std::vector<std::string>::size_type i = 0; i != vec.size(); ++i) {
-    //const char * temp;
-    //temp = vec[i].c_str();
-    //arr[i] = const_cast<char *>(temp);
+  /*for (std::vector<std::string>::size_type i = 0; i != vec.size(); ++i) {
     arr[i] = const_cast<char *>(vec[i].c_str());
     std::cout << arr[i] << std::endl;
+    }*/
+  arr = new char *[vec.size() + 1];
+  for (std::string::size_type j = 0; j < vec.size(); j++) {
+    arr[j] = new char[vec[j].length() + 1];
+    strcpy(arr[j], vec[j].c_str());
+    std::cout << arr[j] << std::endl;
   }
+  arr[vec.size()] = NULL;  // the last element of arr[] must be NULL
 }
 
 //when read in an command, split it for execve()
-char ** parse(std::string & command) {
+std::vector<std::string> parse(std::string & command) {
   std::vector<std::string> str_split;
   int closed_quote = 0;
   int backslash = 0;
@@ -153,18 +157,7 @@ char ** parse(std::string & command) {
     }
   }
 
-  char ** cmd_parse = new char *[str_split.size() + 1];
-  const char * cmd_ccharType;
-  char * cmd_char;
-  for (std::string::size_type j = 0; j < str_split.size(); j++) {
-    cmd_ccharType = str_split[j].c_str();
-    cmd_char = const_cast<char *>(cmd_ccharType);
-    cmd_parse[j] = cmd_char;
-    std::cout << cmd_parse[j] << std::endl;
-  }
-  cmd_parse[str_split.size()] = NULL;  // the last element of argv[] must be NULL
-
-  return cmd_parse;
+  return str_split;
 }
 
 std::string getFullPath(std::string & command, char * envList) {
@@ -229,7 +222,7 @@ void VarParse(std::string & command, std::map<char *, char *> & VarToVal) {
 
 int main(int argc, char * argv[]) {
   std::string command;
-  //std::string cmd_sbstd;
+  std::vector<std::string> cmdParse;
   char ** parsed_command;
   pid_t child_pid, w;
   int wstatus;
@@ -245,7 +238,7 @@ int main(int argc, char * argv[]) {
   while (1) {
     std::cout << "ffosh:" << getcwd(curr_dirt, PATH_MAX) << " $ ";
     std::getline(std::cin, command);
-    command = skip_white_space(command);
+    //command = skip_white_space(command);
     if ((!command.compare("exit")) || (std::cin.eof())) {  //if exit or end of file
       std::map<char *, char *>::iterator it = VarToVal.begin();
       for (it = VarToVal.begin(); it != VarToVal.end(); ++it) {
@@ -255,9 +248,14 @@ int main(int argc, char * argv[]) {
       return EXIT_SUCCESS;
     }
 
+    if ((command.find_first_not_of(" ") == std::string::npos) ||
+        (command.empty())) {  // if no command
+      continue;
+    }
+
     VarParse(command, VarToVal);
-    parsed_command = parse(command);
-    //parsed_command = parse(command);
+    cmdParse = parse(command);
+    StrVecToCharArr(parsed_command, cmdParse);  //Need converting to char** for execve()
 
     std::string path_org = parsed_command[0];
 
@@ -327,9 +325,9 @@ int main(int argc, char * argv[]) {
         parsed_command[0] = const_cast<char *>(path_full.c_str());
       }
 
-      char ** newEnv = new char *[Environ.size() + 1];
+      char ** newEnv;
       StrVecToCharArr(newEnv, Environ);
-      newEnv[Environ.size()] = NULL;
+      //newEnv[Environ.size()] = NULL;
 
       // create new process
       child_pid = fork();    //create the child process
@@ -337,14 +335,15 @@ int main(int argc, char * argv[]) {
         if (execve(parsed_command[0], parsed_command, newEnv) ==
             -1) {  //if execve() failed
           perror("execve");
+          // Have to handle memory by ourselves
+          for (std::string::size_type j = 0; j < cmdParse.size(); j++) {
+            delete[] parsed_command[j];
+          }
+          delete[] parsed_command;
           exit(EXIT_FAILURE);
         }
       }
       else {  // Code executed by parent process
-        delete[] parsed_command;
-        /*for (size_t i = 0; i < Environ.size() + 1; i++) {
-          delete newEnv[i];
-	  }*/
         do {
           w = waitpid(child_pid, &wstatus, WUNTRACED | WCONTINUED);
           if (w == -1) {
