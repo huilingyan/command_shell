@@ -1,4 +1,5 @@
-#include "CmdShell.h"
+#ifndef CHECKBUILTINFUNC_H
+#define CHECKBUILTINFUNC_H
 
 #include <limits.h>
 #include <sys/stat.h>
@@ -18,4 +19,15 @@
 #include <string>
 #include <utility>
 #include <vector>
-#define LIM 100
+
+#include "parse.h"
+
+void CheckExit(std::map<char *, char *> & VarToVal);
+
+void ChangeDirt(char **& parsed_command);
+
+void SetVar(char **& parsed_command, std::map<char *, char *> & VarToVal);
+
+void RevVal(char **& parsed_command, std::map<char *, char *> & VarToVal);
+
+#endif

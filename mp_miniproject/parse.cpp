@@ -19,6 +19,8 @@
 #include <utility>
 #include <vector>
 
+#include "CheckBuiltInFunc.h"
+
 std::string skip_white_space(std::string str) {
   //void skip_white_space(std::string str) {
   if (str.find_first_not_of(" ") != std::string::npos) {
@@ -53,7 +55,7 @@ std::vector<std::string> parse(std::string & command) {
 
   //skip the leading white space
   command = skip_white_space(command);
-  //skip_white_space(command);
+
   //parse the command out, set as argv[0]
   std::string first_command = command.substr(0, command.find(" "));
   str_split.push_back(first_command);
@@ -181,6 +183,7 @@ std::string getFullPath(std::string & command, char * envList) {
   return command;
 }
 
+// Put the current value of var into the env for other programs
 bool ExportVar(char * var,
                std::map<char *, char *> & VarMap,
                std::vector<std::string> & Env) {

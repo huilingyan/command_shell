@@ -1,3 +1,8 @@
 CPPFLAGS= -Wall -Werror -std=gnu++98 -pedantic -ggdb3
-ffosh: ffosh.cpp parse.cpp
-	g++ $(CPPFLAGS) -o ffosh ffosh.cpp parse.cpp
+all: ffosh test failedtest
+ffosh: ffosh.cpp parse.cpp CheckBuiltInFunc.cpp
+	g++ $(CPPFLAGS) -o ffosh ffosh.cpp parse.cpp CheckBuiltInFunc.cpp
+test: test.cpp
+	g++ $(CPPFLAGS) -o test test.cpp
+failedtest: failedtest.cpp
+	g++ $(CPPFLAGS) -o failedtest failedtest.cpp

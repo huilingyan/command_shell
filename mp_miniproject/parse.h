@@ -20,6 +20,8 @@
 #include <utility>
 #include <vector>
 
+#include "CheckBuiltInFunc.h"
+
 std::string skip_white_space(std::string str);
 
 std::string reverse(std::string & s);

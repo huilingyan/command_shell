@@ -1,0 +1,260 @@
+TESTING
+
+
+This is the testing guide for ECE551 mini project ffosh.
+
+
+
+STEP 1:
+
+When you execute the ffosh.cpp file, you will see a prompt $ffosh, asking for command.
+
+  (1) For "Program was successful" test case:
+    1) /bin/ls
+      Type in "/bin/ls" as the command. The output should be:
+      
+        CheckBuiltInFunc.cpp   CheckBuiltInFunc.h~  TESTING.txt       ffosh.cpp   numerics.txt  parse.h   test.cpp
+        CheckBuiltInFunc.cpp~  Makefile             commandShell.txt  ffosh.cpp~  parse.cpp     parse.h~  test.cpp~
+        CheckBuiltInFunc.h     README               ffosh             grade.txt   parse.cpp~    test
+        Program was successful
+  
+    2) env
+      Type in "env" as the command. The output should be:
+      
+      ECE551PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+      Program was successful
+      
+    3) ps
+      Type in "ps" as the command. The output should be:
+      
+         PID TTY          TIME CMD
+         59517 pts/10   00:00:00 bash
+         60917 pts/10   00:00:00 emacs
+         67120 pts/10   00:00:00 ffosh
+         67318 pts/10   00:00:00 ps
+        Program was successful
+        
+      
+  
+  (2) For "Program failed" test case:
+    1) Type in arbitrary string in command line which is not an actual program or command, such as "fiosf". The output should be:
+    
+      Command fiosf not found
+      execve: No such file or directory
+      Program failed with code 1
+  
+    2) Execute failedtest.cpp file by typing in "./failedtest". This is a testing program, and the output should be:
+    
+      Program failed with code 2
+  
+  (3) For "Program terminated" test case:
+  
+    1) Execute test.cpp file by typing in "./test". This is a testing program which will cause a segmentation fault, and the output should be:
+        
+      0
+      1
+      2
+      3
+      4
+      5
+      6
+      7
+      8
+      9
+      10
+      *** stack smashing detected ***: <unknown> terminated
+      Terminated by signal 6
+
+  After all of the above test cases, the shell should print the "ffosh$" prompt again.
+  
+  Finally, by typing in "exit" or pressing "Ctrl+D", the ffosh.cpp program should exit.
+  
+  
+STEP 2:
+
+  (1) Searching for full path
+    1) Instead of typing full path "/bin/ls" as that in step1, this time, typing relative path "ls". It should have the exact same output.
+    2) Type in arbitrary string which doesn't exist as a name of program, such as "abcde". The output should be:
+      
+      Command abcde not found
+  
+  (2) For parsing command, test the following inputs. My shell will output "The command is now parsed to :", and show the command and arguments 
+  after parsing. There're several rules I set for parsing:
+    1) I did not parse the first command, only the arguments. Since in real life, the name of a program is not allowed to contain special characters, including quotation mark or backslash. So do the commands, except ./ .
+    2) A single backslash is ignored.
+    3) It is allowed to use "s to include strings which does not actually contain white space. For example, if the argument is abc"abc"abc,
+    it should be parsed as abcabcabc.
+    4) Leading whitespace is ignored.
+    
+  INPUT: ls -l -a
+  OUTPUT: ls
+          -l
+          -a
+
+          total 664
+          drwxrwxr-x   3 hy165 hy165   4096 Dec  8 00:21 .
+          drwxr-xr-x 111 hy165 hy165   4096 Nov 13 16:02 ..
+          drwxrwxr-x   2 hy165 hy165     64 Nov 13 16:01 .honor
+          -rw-rw-r--   1 hy165 hy165   1991 Dec  7 12:05 CheckBuiltInFunc.cpp
+          -rw-rw-r--   1 hy165 hy165   1982 Dec  7 11:49 CheckBuiltInFunc.cpp~
+          -rw-rw-r--   1 hy165 hy165    666 Dec  7 11:42 CheckBuiltInFunc.h
+          -rw-rw-r--   1 hy165 hy165    417 Dec  7 11:37 CheckBuiltInFunc.h~
+          -rw-rw-r--   1 hy165 hy165    318 Dec  8 00:21 Makefile
+          -rw-rw-r--   1 hy165 hy165   2499 Nov 15 18:53 README
+          -rw-rw-r--   1 hy165 hy165   2993 Dec  8 01:14 TESTING.txt
+          -rw-rw-r--   1 hy165 hy165   7907 Nov 15 18:53 commandShell.txt
+          -rwxrwxr-x   1 hy165 hy165  83048 Dec  8 00:21 failedtest
+          -rw-rw-r--   1 hy165 hy165     92 Dec  8 00:20 failedtest.cpp
+          -rwxrwxr-x   1 hy165 hy165 386848 Dec  7 12:45 ffosh
+          -rw-rw-r--   1 hy165 hy165   4668 Dec  7 12:22 ffosh.cpp
+          -rw-rw-r--   1 hy165 hy165   7590 Dec  3 17:41 ffosh.cpp~
+          -rw-rw-r--   1 hy165 hy165    323 Dec  6 09:43 grade.txt
+          -rw-rw-r--   1 hy165 hy165  12413 Nov 15 18:53 numerics.txt
+          -rw-rw-r--   1 hy165 hy165   6696 Dec  7 12:44 parse.cpp
+          -rw-rw-r--   1 hy165 hy165    354 Dec  6 16:59 parse.cpp~
+          -rw-rw-r--   1 hy165 hy165    968 Dec  7 11:44 parse.h
+          -rw-rw-r--   1 hy165 hy165    375 Dec  6 09:48 parse.h~
+          -rwxrwxr-x   1 hy165 hy165  89920 Dec  7 12:39 test
+          -rw-rw-r--   1 hy165 hy165    307 Dec  7 12:39 test.cpp
+          -rw-rw-r--   1 hy165 hy165    205 Dec  7 12:35 test.cpp~
+          Program was successful
+
+  INPUT: echo     ffosh
+  OUTPUT: ffosh
+          Program was successful
+  
+  INPUT: ./myProgram     "\"hello world\""     "a\\b\\c  d\\"
+  OUTPUT: ./myProgram
+          "hello world"
+          a\b\c  d\
+
+  
+  INPUT: mvk \\\
+  OUTPUT: mvk
+          \
+
+  
+  INPUT: abcde \fghjk
+  OUTPUT: abcde
+          fghjk
+
+  
+  INPUT:          ls
+  OUTPUT: ls
+          CheckBuiltInFunc.cpp   CheckBuiltInFunc.h~  TESTING.txt       failedtest.cpp  ffosh.cpp~    parse.cpp   parse.h~  test.cpp~
+          CheckBuiltInFunc.cpp~  Makefile             commandShell.txt  ffosh           grade.txt     parse.cpp~  test
+          CheckBuiltInFunc.h     README               failedtest        ffosh.cpp       numerics.txt  parse.h     test.cpp
+          Program was successful
+
+  INPUT: abcde \""
+  OUTPUT: Error: Unclosed quotation mark!
+          abcde
+          "
+
+  INPUT: abcde \"\\"
+  OUTPUT: Error: Unclosed quotation mark!
+          abcde
+          "\
+
+
+STEP 3:
+
+  (1) Show the current directory before $.
+  
+    See my prompt after executing shell; it should be
+    
+    ffosh:/home/hy165/ece551/mp_miniproject $
+
+  (2) Change Directory
+  
+    Type in commands by the order below.
+  
+  INPUT: cd ..
+  OUTPUT: ffosh:/home/hy165/ece551 $
+
+  INPUT: cd .
+  OUTPUT: ffosh:/home/hy165/ece551 $ (Directory not change)
+  
+  INPUT: cd 104_huff_all
+  OUTPUT: ffosh:/home/hy165/ece551/104_huff_all $
+
+  INPUT: cd ../mp_miniproject
+  OUTPUT: ffosh:/home/hy165/ece551/mp_miniproject $
+
+  
+  INPUT: cd abcde (Which does not exist)
+  OUTPUT: No such file or directory!
+
+  (3) set and export
+  
+  INPUT: set abc=cd 123
+  OUTPUT: Invalid variable name!
+
+  INPUT: set abc 123 fgh%^*
+         export abc
+         env
+  OUTPUT: ECE551PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+          abc=123 fgh%^*
+          Program was successful
+  
+  INPUT: set abc 123
+         env
+  OUTPUT: ECE551PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+          Program was successful
+  
+  INPUT: export fgh (Which does not exist)
+  OUTPUT: No such variable to export!
+
+  (4) rev
+  
+  INPUT: rev (or "rev" + whitespace)
+  OUTPUT: terminate called after throwing an instance of 'std::logic_error'
+          what():  basic_string::_M_construct null not valid
+          Aborted
+
+  INPUT: rev abc (For which the variable "abc" does not exist)
+  OUTPUT: No such variable!
+  
+  INPUT: set abc "Ha$p(p&y H@a$c]k\i,.n~g
+         rev abc
+  OUTPUT: After reverse, the value is:g~n.,i\k]c$a@H y&p(p$aH"
+  
+  (5) Change the variables with values
+  
+  I cannot figure this out...
+  It can parse single var cases, like:
+  
+    set abc 123
+    abc$abc
+  to abc123
+  
+  And for multiple variables which are not adjacent, such as:
+  
+    set fgh 456 78
+    set jkl ^&*^&*)(@#
+    parse$fghand$jkl--
+  to parse456 78and^&*^&*)(@#--
+  
+  But it cannot handle $abc$jkl and $$abc. Please give me some partial credit...Thaaaanks!
+
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

@@ -1,5 +1,5 @@
-#ifndef CMDSHELL_H
-#define CMDSHELL_H
+#ifndef CHECKBUILTINFUNC_H
+#define CHECKBUILTINFUNC_H
 
 #include <limits.h>
 #include <sys/stat.h>
@@ -19,6 +19,7 @@
 #include <string>
 #include <utility>
 #include <vector>
-#define LIM 100
+
+#include "parse.h"
 
 #endif
