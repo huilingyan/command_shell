@@ -2,7 +2,7 @@
 #include <iostream>
 
 int main(void) {
-  if (1 != 2) {
-    exit(2);
+  if (0 != 1) {
+    exit(5);
   }
 }

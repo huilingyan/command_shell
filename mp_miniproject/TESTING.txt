@@ -45,7 +45,7 @@ When you execute the ffosh.cpp file, you will see a prompt $ffosh, asking for co
   
     2) Execute failedtest.cpp file by typing in "./failedtest". This is a testing program, and the output should be:
     
-      Program failed with code 2
+      Program failed with code 5
   
   (3) For "Program terminated" test case:
   
@@ -67,7 +67,8 @@ When you execute the ffosh.cpp file, you will see a prompt $ffosh, asking for co
 
   After all of the above test cases, the shell should print the "ffosh$" prompt again.
   
-  Finally, by typing in "exit" or pressing "Ctrl+D", the ffosh.cpp program should exit.
+  Finally, by typing in "exit" or pressing "Ctrl+D", the ffosh.cpp program should exit; and if typing purely white spaces or press Enter, The shell
+  should print the "ffosh$" prompt again and repeat the process.
   
   
 STEP 2:
