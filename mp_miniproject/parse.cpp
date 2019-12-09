@@ -166,16 +166,16 @@ std::string getFullPath(std::string & command, char * envList) {
   std::string fullPath;
   std::vector<std::string> str_split;
   std::string envList_trans = envList;
-  while (envList_trans.find(":") != std::string::npos) {
+  while (envList_trans.find(":") != std::string::npos) { // When found the :
     std::string parts = envList_trans.substr(0, envList_trans.find(":"));
-    str_split.push_back(parts);
+    str_split.push_back(parts); // push into the vector
     envList_trans.erase(0, envList_trans.find(":") + 1);
   }
-  str_split.push_back(envList_trans);
+  str_split.push_back(envList_trans); // Push back the last path
   for (std::vector<std::string>::size_type i = 0; i != str_split.size(); ++i) {
-    std::string Path = str_split[i] + "/" + command;
+    std::string Path = str_split[i] + "/" + command; // Concatenate path with command name
     const char * Pathname = Path.c_str();
-    if (stat(Pathname, &sb) == 0) {
+    if (stat(Pathname, &sb) == 0) {  // If the absolute path is valid
       fullPath = Pathname;
       return fullPath;
     }
@@ -192,8 +192,8 @@ bool ExportVar(char * var,
   for (it = VarMap.begin(); it != VarMap.end(); ++it) {
     std::string keyToComp = it->first;
     std::string ValueToComp = it->second;
-    if (keyToComp == VarToAdd) {
-      Env.push_back(keyToComp + "=" + ValueToComp);
+    if (keyToComp == VarToAdd) { // If we found the var-val pair in the map
+      Env.push_back(keyToComp + "=" + ValueToComp); // Push into envp
       return true;
     }
   }
@@ -204,14 +204,14 @@ bool ExportVar(char * var,
 void VarParse(std::string & command, std::map<char *, char *> & VarToVal) {
   std::string::size_type pos = 0;
   while (pos < command.length()) {
-    if ((pos = command.find("$", pos)) != std::string::npos) {
+    if ((pos = command.find("$", pos)) != std::string::npos) { // If found $
       std::map<char *, char *>::iterator it = VarToVal.begin();
-      for (it = VarToVal.begin(); it != VarToVal.end(); ++it) {
+      for (it = VarToVal.begin(); it != VarToVal.end(); ++it) { // Find the var in map
         std::string keyToFind = it->first;
         std::string keyToSubt = "$" + keyToFind;
         std::string ValToSubt = it->second;
-        if (command.find(keyToSubt, pos) != std::string::npos) {
-          command.replace(pos, keyToSubt.length(), ValToSubt);
+        if (command.find(keyToSubt, pos) != std::string::npos) { // If found
+          command.replace(pos, keyToSubt.length(), ValToSubt);  //Substitue var with value
           pos += ValToSubt.length();
           break;
         }

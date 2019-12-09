@@ -21,7 +21,7 @@
 #include "parse.h"
 void CheckExit(std::map<char *, char *> & VarToVal) {
   std::map<char *, char *>::iterator it = VarToVal.begin();
-  for (it = VarToVal.begin(); it != VarToVal.end(); ++it) {
+  for (it = VarToVal.begin(); it != VarToVal.end(); ++it) { // Free the memory for map before exit the program
     free(it->first);
     free(it->second);
   }
@@ -38,7 +38,7 @@ void ChangeDirt(char **& parsed_command) {
 void SetVar(char **& parsed_command, std::map<char *, char *> & VarToVal) {
   char * key = strdup(parsed_command[1]);
   char * value = strdup(parsed_command[2]);
-  VarToVal.insert(std::pair<char *, char *>(key, value));
+  VarToVal.insert(std::pair<char *, char *>(key, value)); // Push key-value pair into map
 
   // print out the elements of map for test
   std::map<char *, char *>::iterator it = VarToVal.begin();
@@ -51,14 +51,14 @@ void SetVar(char **& parsed_command, std::map<char *, char *> & VarToVal) {
 }
 
 void RevVal(char **& parsed_command, std::map<char *, char *> & VarToVal) {
-  std::string var_to_rev = parsed_command[1];
+  std::string var_to_rev = parsed_command[1]; 
   std::map<char *, char *>::iterator it = VarToVal.begin();
-  for (it = VarToVal.begin(); it != VarToVal.end(); ++it) {
+  for (it = VarToVal.begin(); it != VarToVal.end(); ++it) { // Iterate through the map to find the var
     std::string keyToCompare = it->first;
     std::string ValueToRev = it->second;
-    if (keyToCompare == var_to_rev) {
-      ValueToRev = reverse(ValueToRev);
-      strcpy(it->second, ValueToRev.c_str());
+    if (keyToCompare == var_to_rev) { // If found
+      ValueToRev = reverse(ValueToRev); // Reverse value
+      strcpy(it->second, ValueToRev.c_str()); // Change string into char*
       break;
     }
   }
