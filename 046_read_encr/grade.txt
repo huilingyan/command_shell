@@ -1,7 +1,0 @@
-Grading at 09/23/2019:15:04:57.174655
-For commit ID f7005aadb2ef2432ba09a0cabb0ae45ca3a4ba19
-Grading at Mon Sep 23 11:04:57 EDT 2019
-Your file matched the expected output
-Your output matched what we expected
-
-Overall Grade: A

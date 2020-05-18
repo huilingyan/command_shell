@@ -1,3 +1,0 @@
-CFLAGS=-std=gnu99 -Wall -Werror -pedantic
-
-mystat: 

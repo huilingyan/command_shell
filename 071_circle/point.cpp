@@ -1,1 +1,0 @@
-../070_point/point.cpp

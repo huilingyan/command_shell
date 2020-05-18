@@ -1,4 +1,0 @@
-#include "point.h"
-
-#include <cmath>
-#include <cstdio>

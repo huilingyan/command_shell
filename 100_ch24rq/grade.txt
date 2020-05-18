@@ -1,7 +1,0 @@
-Grading at 11/11/2019:02:36:47.751942
-For commit ID 0361d4483b38cf55765d33e6d4985ffcf6c2a1ac
-Grading at Sun Nov 10 21:36:47 EST 2019
-Reading your quiz answers from answers.txt
-Your quiz answers are correct
-
-Overall Grade: PASSED

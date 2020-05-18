@@ -1,9 +1,0 @@
-class Circle {
-  Point center;
-  const double radius;
-
- public:
-  Circle(Point ctr, const double r) : ctr(center), r(radius) {}
-  void move(double dx, double dy);
-  double intersectionArea(const Circle & otherside);
-};

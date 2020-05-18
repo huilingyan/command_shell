@@ -1,5 +1,0 @@
-CFLAGS=-pedantic -std=gnu99 -Wall -Werror
-code: code.o
-	g++ -o code $(CFLAGS) code.o
-code.o: code.cpp
-	g++ -c $(CFLAGS) code.cpp
